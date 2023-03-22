@@ -77,6 +77,7 @@ function Admin() {
         <button className="admin-sidebar-toggle" onClick={handleToggleSidebar}>
           {isSidebarVisible ? "<<" : ">>"}
         </button>
+        <h1>Admin Profile</h1>
           <ul>
             <li className={selected === 'user-creation' ? 'active' : ''}>
               <div onClick={() => handleClick('user-creation')}>UserCreation</div>
@@ -108,6 +109,7 @@ function Admin() {
           </ul>
         </div>
         <div className="admin-main">
+         
           {renderComponent()}
         </div>
       </div>

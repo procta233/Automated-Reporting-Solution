@@ -1,74 +1,42 @@
 import React from "react";
 import { useState } from "react";
-// import "../CSS/UserCreation.css";
-
+import "./componentscss/UserCreation.css"
 import { Link} from 'react-router-dom';
-
+import {fetchPostApi} from "../../api/singlecall"
 
 const UserCreation = () => {
-  const [values, setValues] = useState({
-    user_id: "",
-    user_name: "",
-    employ_id: "",
-    designation: "",
-    department: "",
-    phone_number: "",
-    email: "",
-    password: "",
-  });
 
-  const URL = "https://create-users.onrender.com/api/addusers";
-  const hanleSubmit = async (event) => {
+  const [values, setValues] = useState({userid:"", username:"", employid:"", department:"", usertype:"", phonenumber:"", email:"", password:"", userstatus:"active"});
+
+  const HanleSubmit = async (event) => {
     event.preventDefault();
     console.log("====finalobj====", values);
-    const {
-      user_name,
-      user_id,
-      designation,
-      department,
-      employ_id,
-      phone_number,
-      email,
-    } = values;
-    const password = `${user_name.substring(0, 3)}${phone_number.slice(-3)}`;
-    const newUser = {
-      user_id,
-      user_name,
-      employ_id,
-      designation,
-      department,
-      email,
-      password,
-      phone_number,
-    };
-    try {
-      const response = await fetch(URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newUser),
-      });
+    const {userid, username, employid, department, usertype, phonenumber, email,userstatus} = values;
+    const password = `${username.substring(0, 3)}${phonenumber.slice(-3)}`;
+    const newUser = { userid, username, employid, department, usertype, phonenumber, email, password, userstatus };
+   const API="https://automatic-reporting-system.onrender.com/api/addusers"
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
+
+      try {
+        const result = await fetchPostApi(API, newUser);
+        console.log(result); // do something with the result
+      } catch (error) {
+        console.log(error); // handle the error
       }
+  
 
-      console.log("User registration successful");
-      // replace with your logic to handle successful registration
-    } catch (error) {
-      console.error("There was an error registering the user:", error);
-      // replace with your logic to handle registration errors
-    }
   };
+
   const handleSelectChange = (e) => {
     const { value } = e.target;
     setValues({
       ...values,
-      designation: value
+      usertype: value
     });
     console.log(values);
   };
+
+
   const changeHandler = (e) => {
     const { name, value } = e.target;
     setValues({ ...values, [name]: value });
@@ -80,14 +48,14 @@ const UserCreation = () => {
         <h1 className="usercreation-h1">Create New User</h1>
       </label>
       
-      <form className="usercreation-form" onSubmit={hanleSubmit}>
+      <form className="usercreation-form" onSubmit={HanleSubmit}>
         <div className="usercreation-div2">
           <label className="usercreation-label-2">User ID</label>
           <input className="usercreation-input"
             type="text"
-            id="user_id"
-            name="user_id"
-            value={values.user_id}
+            id="userid"
+            name="userid"
+            value={values.userid}
             onChange={changeHandler}
             required
           />
@@ -96,9 +64,9 @@ const UserCreation = () => {
           <label className="usercreation-label-2">Username</label>
           <input className="usercreation-input"
             type="text"
-            id="user_name"
-            name="user_name"
-            value={values.user_name}
+            id="username"
+            name="username"
+            value={values.username}
             onChange={changeHandler}
             required
           />
@@ -108,9 +76,9 @@ const UserCreation = () => {
           <input
           className="usercreation-input"
             type="text"
-            id="employ_id"
-            name="employ_id"
-            value={values.employ_id}
+            id="employid"
+            name="employid"
+            value={values.employid}
             onChange={changeHandler}
             required
           />
@@ -130,9 +98,9 @@ const UserCreation = () => {
           <label className="usercreation-label-2">User Type</label>
           <select
           className="usercreation-select"
-            id="designation"
-            name="designation"
-            onChange={handleSelectChange}
+            id="usertype"
+            name="usertype"
+            onChange={changeHandler}
             required
           >
             <option className="usercreation-label-2" value="">Select User Type</option>
@@ -147,9 +115,9 @@ const UserCreation = () => {
           <input 
           className="usercreation-input"
             type="tel"
-            id="phone_number"
-            name="phone_number"
-            value={values.phone_number}
+            id="phonenumber"
+            name="phonenumber"
+            value={values.phonenumber}
             onChange={changeHandler}
             required
           />
@@ -170,6 +138,7 @@ const UserCreation = () => {
         <button className="usercreation-button" type="submit"><Link to="/admin">Back</Link></button>
 
         <button className="usercreation-button" type="submit">Enter</button>
+        {/* <button type="button" onClick={(()=>console.log(values))}> </button> */}
         </div>
       </form>
     </div>

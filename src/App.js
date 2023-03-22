@@ -17,7 +17,7 @@ import MapModule from './components/admincomponents/MapModule';
 
 
 import Admin from './usertypes/admin';
-
+import Creator from './usertypes/creator';
 const App = () => {
   return (
     <div>
@@ -34,6 +34,7 @@ const App = () => {
             <Route exact path="/admin/manufacturermaster" element={<ManufacturerMaster />}/>
             <Route exact path="/admin/manufacturercreate" element={<ManufacturerCreate />}/>
             <Route exact path="/admin/mapmodule" element={<MapModule />}/>
+          <Route path="/creator" element={<Creator />} />
           {/* <Route path="/approver" element={<Approver />} />
           <Route path="/checker" element={<Checker />} />
           <Route path="/creator" element={<Creator />} />

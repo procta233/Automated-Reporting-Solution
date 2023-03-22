@@ -1,0 +1,247 @@
+/* .manufacturercreate-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    width: 80%;
+    max-width: 600px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f8f8f8;
+    font-family: Arial, sans-serif;
+  }
+
+  
+  .manufacturercreate-h1 {
+    display: block;
+    background-color: #eaeeea;
+  
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 32px;
+    font-weight: 700;
+    color: #2134ad;
+    text-align: center;
+  }
+  
+  .manufacturercreate-div{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    width: 100%;
+
+}
+
+.manufacturercreate-label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    color: #333;
+    text-align: left;
+  }
+  
+  .manufacturercreate-input[type="text"],
+  .manufacturercreate-input[type="file"] {
+    padding: 10px;
+    margin-bottom: 15px;
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    font-size: 1.2rem;
+  }
+  
+  .manufacturercreate-input[type="text"]:focus,
+  .manufacturercreate-input[type="file"]:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+  }
+  
+  .manufacturercreate-input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .manufacturercreate-input[type="submit"]:hover {
+    background-color: #3e8e41;
+  }
+  
+  .manufacturercreate-input[type="hidden"] {
+    display: none;
+  }
+   */
+
+   @import url("https://use.fontawesome.com/releases/v5.15.2/css/all.css");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+.manufacturercreate-div {
+ 
+  width: 100%;
+  margin-bottom: 0rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color:  #f1f1f3;
+
+  
+}
+
+.manufacturercreate-label {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  display: block;
+  color: #2134ad;
+
+  font-family: "Material Icons";
+  margin-right: 5px;
+}
+
+
+.manufacturercreate-h1 {
+  display: flex;
+  background-color: #eaeeea;
+
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 32px;
+  font-weight: 700;
+  color: #2134ad;
+  text-align: center;
+}
+
+.manufacturercreate-h1::before {
+  content: "\f007";
+  font-family: "Font Awesome 5 Free";
+  margin-right: 10px;
+}
+
+.manufacturercreate-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 500px;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  font-family: Arial, sans-serif;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+ .manufacturercreate-div2 {
+
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+ .manufacturercreate-label2 {
+  display:inline-block;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8px;
+}
+.manufacturercreate-input {
+  border: 1px solid #090909;
+  border-radius: 5px;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  background-color: #f5f5f5;
+  color: #1e1e1e;
+  transition: all 0.5s ease-in-out;
+  border-bottom: 1px solid #ccc;
+  width: 70%;
+  margin-bottom: 2rem;
+}
+
+.manufacturercreate-select {
+  border: none;
+  border-radius: 5px;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  background-color: #f5f5f5;
+  color: #1e1e1e;
+  transition: all 0.5s ease-in-out;
+  width: 50%;
+
+
+  border-bottom: 1px solid #ccc;
+  width: 70%;
+  margin-bottom: 2rem;
+
+}
+
+/* .manufacturercreate-input:focus{
+  outline: none;
+  border-bottom: 1px solid #007bff;
+}
+
+
+.manufacturercreate-select:focus{
+  outline: none;
+  border-bottom: 1px solid #007bff;
+} */
+
+
+.manufacturercreate-button {
+  border: none;
+  border-radius: 5px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: #4CAF50;
+  color: #ecedec;
+ margin-right: 50px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.manufacturercreate-button:hover {
+color: #2c4df2;
+}
+.manufacturercreate-button::before {
+  background-color: #555;
+  font-family: "Font Awesome 5 Free";
+  margin-right: 10px;
+}
+
+
+
+
+@media screen and (max-width: 768px) {
+  .manufacturercreate-h1 {
+    font-size: 28px;
+  }
+
+  .manufacturercreate-form {
+    max-width: 400px;
+  }
+}
+
+
+
+
+
+
