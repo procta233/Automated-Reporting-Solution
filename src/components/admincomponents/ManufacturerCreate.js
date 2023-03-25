@@ -3,6 +3,7 @@ import "./componentscss/ManufacturerCreate.css";
 import {fetchPostApi} from "../../api/singlecall"
 
 function ManufacturerCreate() {
+  const URL=process.env.REACT_APP_URL;
   const [formValues, setFormValues] = useState({
     manufacturerid: '',
     manufacturername: '',
@@ -11,6 +12,7 @@ function ManufacturerCreate() {
   });
 
   const handleInputChange = (event) => {
+    
     const { name, value } = event.target;
     setFormValues({ ...formValues, [name]: value });
   };
@@ -25,7 +27,7 @@ function ManufacturerCreate() {
       //   logo: reader.result,
       // });
       // Save the image file to the manufacturerlogostore directory
-      const fileName = `${formValues.manufacturerId}_${formValues.logoid}_${file.name}`;
+      const fileName = `${formValues.manufacturerid}_${formValues.logoid}_${file.name}`;
       const filePath = `../manufacturerlogostore/${fileName}`;
       fetch(filePath, {
         method: 'PUT',
@@ -44,7 +46,7 @@ function ManufacturerCreate() {
     event.preventDefault();
     // Here you can use the form data (formValues.manufacturerId, formValues.manufacturerName, formValues.logoid, formValues.logopath)
     // to submit the form to your backend or do whatever you need to do
-     const API="https://automatic-reporting-system.onrender.com/api/addmanufacturer";
+     const API=URL+"addmanufacturer";
 
       try {
         const result = await fetchPostApi(API,formValues);
@@ -62,22 +64,22 @@ function ManufacturerCreate() {
     </label>
     <form  className='manufacturercreate-form' onSubmit={handleSubmit}>
       <div className='manufacturercreate-div2'>
-        <label className='manufacturercreate-label2' htmlFor="manufacturerId">Manufacturer ID:</label>
+        <label className='manufacturercreate-label2' htmlFor="manufacturerid">Manufacturer ID:</label>
         <input className='manufacturercreate-input'
           type="text"
-          id="manufacturerId"
-          name="manufacturerId"
-          value={formValues.manufacturerId}
+          id="manufacturerid"
+          name="manufacturerid"
+          value={formValues.manufacturerid}
           onChange={handleInputChange}
         />
       </div>
       <div className='manufacturercreate-div2'>
-        <label className='manufacturercreate-label2' htmlFor="manufacturerName">Manufacturer Name:</label>
+        <label className='manufacturercreate-label2' htmlFor="manufacturername">Manufacturer Name:</label>
         <input className='manufacturercreate-input'
           type="text"
-          id="manufacturerName"
-          name="manufacturerName"
-          value={formValues.manufacturerName}
+          id="manufacturername"
+          name="manufacturername"
+          value={formValues.manufacturername}
           onChange={handleInputChange}
         />
       </div>

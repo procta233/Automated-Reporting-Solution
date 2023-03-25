@@ -3,10 +3,13 @@ import "./componentscss/ClientMaster.css";
 import {fetchGetApi} from "../../api/singlecall"
 
 
+
 function ClientMaster() {
+  const URL=process.env.REACT_APP_URL
+  console.log("NSJKDC",URL+"clients")
   const [clients, setClients] = useState([]);
   const fetch = async () => {
-  const API="https://automatic-reporting-system.onrender.com/api/clients"
+  const API=URL+"clients"
   const result = await fetchGetApi (API);
   console.log("result",result);
   setClients(result);
@@ -28,7 +31,7 @@ function ClientMaster() {
     // handle delete client logic
     setClients(clients.filter((client) => client.clientid !== clientid));
   };
-
+  console.log("url",process.env.REACT_APP_URL)
   return (
     <div>
     <label >

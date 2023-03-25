@@ -3,6 +3,7 @@ import { fetchPostApi } from "../../api/singlecall";
 import "../admincomponents/componentscss/MapModule.css";
 
 function MapModule() {
+  const URL=process.env.REACT_APP_URL;
   const [DBChoose, setDBChoose] = useState(null);
   const [TBChoose, setTBChoose] = useState(null);
   const [FChoose, setFChoose] = useState(null);
@@ -13,12 +14,12 @@ function MapModule() {
   const [options3, setOptions3] = useState([]);
   const [newF, setNewF] = useState(null);
   const [atList, setAtlist] = useState([]);
-  const API =  "https://automatic-reporting-system.onrender.com/api/client/databases";
-  const API2 = "https://automatic-reporting-system.onrender.com/api/tables";
-  const API3 = "https://automatic-reporting-system.onrender.com/api/uniqueformtypes";
-  const API4 = "https://automatic-reporting-system.onrender.com/api/attributes";
-  const API5 = "https://automatic-reporting-system.onrender.com/api/sensors";
-  const API6 = "https://automatic-reporting-system.onrender.com/api/addsensors";
+  const API =  URL+"client/databases";
+  const API2 = URL+"tables";
+  const API3 = URL+"uniqueformtypes";
+  const API4 = URL+"attributes";
+  const API5 = URL+"sensors";
+  const API6 = URL+"addsensors";
 
 
   const getclient = async (API) => {
@@ -27,29 +28,46 @@ function MapModule() {
     const data1 = await response.json();
     return data1;
   };
+  
+function filterAttributes(List1, List2) {
+  let usedatt = [];
+  
+  for (let obj of List1) {
+    let attribute = obj["attribute"];
+    if (!usedatt.includes(attribute)) {
+      usedatt.push(attribute);
+    }
+  }
 
-  const handleOption1Select = (e) => {
+ let result= List2.filter(x => !usedatt.includes(x))
+  console.log("resulttt",result);
+
+  return result;
+}
+
+const handleOption1Select = (e) => {
     setDBChoose(e);
     fetchPostApi(API2, { databasename: e }).then((data) => setOptions2(data));
   };
 
-  const handleOption2Select = (e) => {
+  const handleOption2Select = async (e) => {
     setTBChoose(e);
     const beta = { databasename: DBChoose, tablename: e };
-    fetchPostApi(API3, beta).then((data) => {
-      setOptions3(data.formTypes);
+    const data=await fetchPostApi(API3, beta)
+      setOptions3(data.formtypes);
       setNewF(data.nextformtype);
       console.log(data);
-    });
-  };
-  const clickhandler4 = () => {
+    };
+  
+  const clickhandler4 = async () => {
     setFChoose(newF);
     setRows([]);
     const lambda = { databasename: DBChoose, tablename: TBChoose };
 
-    fetchPostApi(API4, lambda).then((data) => setAtlist(data));
+    const data =await fetchPostApi(API4, lambda);
+     setAtlist(data);
   };
-  const handleOption3Select = (e) => {
+  const handleOption3Select = async (e) => {
     setFChoose(e);
     setNewF(e);
 
@@ -57,8 +75,13 @@ function MapModule() {
 
     const delta = { databasename: DBChoose, tablename: TBChoose };
 
-    fetchPostApi(API4, delta).then((data) =>setAtlist(data) );
-    fetchPostApi(API5, gama).then((data) => setRows(data));
+    const data2=await fetchPostApi(API5, gama);
+    setRows(data2);
+   
+    const data1= await fetchPostApi(API4, delta);
+     const finalattList=filterAttributes(data2,data1)
+    setAtlist(finalattList);
+   
 
     console.log("aaaa",atList,rows);  
   };
@@ -70,13 +93,22 @@ function MapModule() {
     const head2 = event.target.elements.head2.value;
     const unit = event.target.elements.unit.value;
     const attribute = event.target.elements.attribute.value;
-
+    const newatt =atList.filter(item => item !== attribute)
+    setAtlist(newatt)
     setRows((prevRows) => [...prevRows, { head1, head2, unit, attribute }]);
     setRowsNew((prevRowsNew) => [...prevRowsNew, { databasename:DBChoose , tablename:TBChoose, formtype:FChoose , head1, head2, unit, attribute }]);
   };
   const handleLast =() =>{
     console.log(rowsNew);
-    fetchPostApi(API6, rowsNew).then((data) => console.log(data));
+  fetchPostApi(API6, rowsNew)
+    .then((data) => {
+      console.log(data);
+      alert("Data Submitted Successfully");
+    })
+    .catch((error) => {
+      console.error(error);
+      alert("An error occurred while submitting data.");
+    });
   };
   useEffect(() => {
     getclient(API).then((data1) => setOptions1(data1));

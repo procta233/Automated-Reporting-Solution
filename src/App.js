@@ -18,6 +18,11 @@ import MapModule from './components/admincomponents/MapModule';
 
 import Admin from './usertypes/admin';
 import Creator from './usertypes/creator';
+import Checker from './usertypes/Checker';
+import Approver from './usertypes/Approver';
+import EditComponents from './components/EditComponents';
+import Testing from './Testing';
+import Testing2 from './Testing2';
 const App = () => {
   return (
     <div>
@@ -35,8 +40,12 @@ const App = () => {
             <Route exact path="/admin/manufacturercreate" element={<ManufacturerCreate />}/>
             <Route exact path="/admin/mapmodule" element={<MapModule />}/>
           <Route path="/creator" element={<Creator />} />
-          {/* <Route path="/approver" element={<Approver />} />
+          <Route path="/edit" element={<EditComponents />} />
+           <Route path="/approver" element={<Approver />} />
           <Route path="/checker" element={<Checker />} />
+          <Route path="/testpage" element={<Testing />} />
+          <Route path="/testpage2" element={<Testing2 />} />
+          {/*
           <Route path="/creator" element={<Creator />} />
             <Route exact path="/creator/createreport" element={<CreateReport />}/>
              <Route exact path="/creator/createreport/datetimeoptionality" element={<DateTimeOptionality />}/>

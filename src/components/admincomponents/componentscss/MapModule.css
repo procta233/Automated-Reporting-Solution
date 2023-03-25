@@ -1,7 +1,7 @@
   
 .mapmodule-div {
  
-    width: 100%;
+    width: 50%;
     margin-bottom: 0rem;
     display: block;
     flex-direction: column;
@@ -141,7 +141,7 @@
   .mapmodule-table td {
     background-color: #f2f2f2;
     font-weight: bold;
-    block-size: 10%;
+    block-size: 5%;
     border: 1px solid #070707;
 
   }
@@ -171,7 +171,7 @@
     border: 1px solid #070707;
       width: 20%;
       height: 50px;
-      background-color:#0f1016;
+      background-color:#4CAF50;
       color: rgb(15, 15, 15);
       font-size: 1.2rem;
       font-weight: 500;
@@ -179,6 +179,8 @@
       border-radius: 5px;
       cursor: pointer;
       transition: background-color 0.5s ease-in-out;
+      margin: auto;
+  display: block;
   }
   
   .mapmodule-table button:hover {

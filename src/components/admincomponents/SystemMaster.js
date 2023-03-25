@@ -3,6 +3,7 @@ import {fetchGetApi} from "../../api/singlecall"
 import "./componentscss/SystemMaster.css";
 
 function SystemMaster() {
+  const URL=process.env.REACT_APP_URL;
   const [systems, setSystems] = useState([
  
   ]);
@@ -17,7 +18,7 @@ function SystemMaster() {
     setSystems(systems.filter((system) => system.systemid !== systemid));
   }; 
   const fetch = async () => {
-    const API="https://automatic-reporting-system.onrender.com/api/systems"
+    const API=URL+"systems"
     const result = await fetchGetApi (API);
     console.log("result",result);
     setSystems(result);

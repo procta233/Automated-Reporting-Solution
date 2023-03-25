@@ -65,6 +65,7 @@
 }
 
  .usercreation-div2 {
+  font-size: 1.2rem;
 
   display: flex;
   flex-direction: column;
@@ -72,11 +73,21 @@
   margin-bottom: 1.5rem;
 }
 
+.usercreation-div2 .error-message {
+  display: inline-block;
+  color: red;
+  /* margin-top: 0.3rem; */
+  margin-right: 1rem;
+  font-size: 0.6rem;
+
+  /* text-align: right; */
+}
+
  .usercreation-label-2 {
   display:inline-block;
   font-size: 16px;
-  font-weight: 500;
-  color: #333;
+  font-weight: 700;
+  color: #000000;
   margin-bottom: 8px;
 }
 .usercreation-input {

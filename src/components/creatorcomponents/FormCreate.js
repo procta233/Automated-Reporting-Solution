@@ -3,6 +3,18 @@ import {fetchGetApi, fetchPostApi } from "../../api/singlecall";
 import "../admincomponents/componentscss/FormCreate.css";
 
 function FormCreate() {
+  const URL=process.env.REACT_APP_URL;
+  const API1 =URL+"client/databases";
+  const API2=URL+"systems";
+  const API3=URL+"manufacturers";
+  const API4 = URL+"tables";
+  const API5 = URL+"uniqueformtypes";
+  const API6 =URL+"description";
+  const API7 = URL+"sensors";
+  const API8 = URL+'setpoints';
+  const API9 = URL+"normalpoints";
+  const API10 = URL+"advancesearch";
+
   const [showComponentOne, setShowComponentOne] = useState(true);
   const [showComponentTwo, setShowComponentTwo] = useState(false);
   const [showComponentThree, setShowComponentThree] = useState(false);
@@ -11,9 +23,10 @@ function FormCreate() {
 
   const [clientList, setClientList] = useState([]);
   const [systemList, setSystemList] = useState([]);
-  const [selectedDB,setSelectedDB] = useState([]);
+  const [selectedDB,setSelectedDB] = useState("");
   const [manufacturerList,setManufacturerList]=useState([]);
-  const [tables,setTables]=useState([]);
+  const [table1,setTable1]=useState([]);
+  const [formList,setFormList]=useState([]);
 
   const [formValues, setFormValues] = useState({
     userid: "ABS-896645467/Creator",
@@ -25,11 +38,144 @@ function FormCreate() {
     timebegin: "",
     dateend: "",
     timeend: "",
-    status: "",
+    status1: "Draft",
     timetype: "",
-    tables:'',
+    table1:'',
     databasename:'',
+    version:'',
+    reportid:null,
+    utilityid:null,
+    prechandler:'',
+    nexthandler:'',
+    count:1,
+
   });
+
+  const [list, setList] = useState([]);
+  const [selected1, setSelected1] = useState([]);
+  const [selected2, setSelected2] = useState([]);
+  const[repId,setRepId]=useState([]);
+
+  const [isSelected, setIsselected] = useState(true);
+  const [data, setData] = useState([[]]);
+  const [body, setBody] = useState([]);
+  const [headi2, setHeadi2] = useState([[]]);
+
+
+  const [heading, setHeading] = useState([]);
+  const [options, setOptions] = useState([[]]);
+
+  const handleInputChange = (e, row, col) => {
+    const newData = [...data];
+    newData[row][col] = e.target.value;
+    setData(newData);
+  };
+
+  const handleSelectChange = (e, row, col) => {
+    const newData = [...data];
+    newData[row][col] = e.target.value;
+    setData(newData);
+    isSelected === false? setIsselected(true):setIsselected(false);
+  };
+
+  const addRow = () => {
+   if (data.length-1 === 0)
+    {const len = heading.length;
+    const bet = data.length + 1;
+  const t = [[]];
+  for (var i = 0; i < bet; i++) {
+    var tt = [len];
+    for (var j = 0; j < len; j++) {
+      if (j !== 0) {
+        tt[j] = "-";
+      } else {
+        tt[j] = "";
+      }
+    }
+    console.log(tt);
+    t[i] = tt;
+  }
+  setData(t);}
+  else {const newData = [...data];
+    newData.push(Array(data[0].length).fill(""));
+    setData(newData);};
+  };
+
+  const shiftLeft = (col) => {
+    var newdata = [...heading];
+    console.log("newdata", newdata);
+    if (col < headi2.length && col !== 0) {
+      var temp = newdata[col];
+      newdata[col] = newdata[col - 1];
+      newdata[col - 1] = temp;
+      var tempdata = [...data];
+      for (var j = 0; j < data.length; j++) {
+        if (col < heading.length && col !== 0) {
+          var temp2 = tempdata[j][col];
+          tempdata[j][col] = tempdata[j][col - 1];
+          tempdata[j][col - 1] = temp2;
+        }
+      }
+      var tempzzz = [...body];
+      for (var n = 0; n < body.length; n++) {
+        if (col < headi2.length && col !== 0) {
+          var temp10= tempzzz[n][col];
+          tempzzz[n][col] = tempzzz[n][col - 1];
+          tempzzz[n][col - 1] = temp10;
+        }
+      }
+      var tempzz = [...headi2];
+      for (var o = 0; o < headi2.length; o++) {
+        if (col < headi2.length && col !== 0) {
+          var temp4 = tempzz[o][col];
+          tempzz[o][col] = tempzz[o][col - 1];
+          tempzz[o][col - 1] = temp4;
+        }
+      }
+      setHeadi2(tempzz);
+      setBody(tempzzz);
+      setHeading(newdata);
+      setData(tempdata);
+    }
+  };
+
+  const shiftRight = (col) => {
+    var newdata = [...heading];
+
+    if (col < headi2.length - 1) {
+      var temp = newdata[col];
+      newdata[col] = newdata[col + 1];
+      newdata[col + 1] = temp;
+      var tempdata = [...data];
+      for (var j = 0; j < data.length; j++) {
+        if (col < heading.length && col !== 0) {
+          var temp2 = tempdata[j][col];
+          tempdata[j][col] = tempdata[j][col + 1];
+          tempdata[j][col + 1] = temp2;
+        }
+      }
+      var tempo = [...body];
+      for (var k = 0; k < body.length; k++) {
+        if (col < headi2.length && col !== 0) {
+          var temp9 = tempo[k][col];
+          tempo[k][col] = tempo[k][col + 1];
+          tempo[k][col + 1] = temp9;
+        }
+      }
+      var tempo2 = [...headi2];
+      for (var l = 0; l < headi2.length; l++) {
+        if (col < headi2.length && col !== 0) {
+          var temp10 = tempo2[l][col];
+          tempo2[l][col] = tempo2[l][col + 1];
+          tempo2[l][col + 1] = temp10;
+        }
+      }
+      setHeadi2(tempo2);
+      setBody(tempo);
+      setHeading(newdata);
+      setData(tempdata);
+    }
+  };
 
 
   function getClientIdByDatabaseName(jsonArray, databasename) {
@@ -37,7 +183,7 @@ function FormCreate() {
     return obj ? obj.clientid : null;
   };
   const Cid=getClientIdByDatabaseName(clientList,selectedDB);
-  console.log(Cid,selectedDB);
+
   const getUniqueSystems = [
     ...new Set(systemList.map((item) => item.systemname)),
   ];
@@ -45,30 +191,58 @@ function FormCreate() {
     ...new Set(manufacturerList.map((item) => item.manufacturername)),
   ];
 
-  const API1 ="https://automatic-reporting-system.onrender.com/api/client/databases";
-  const API2="https://automatic-reporting-system.onrender.com/api/systems"
-  const API3="https://automatic-reporting-system.onrender.com/api/manufacturers"
-  const API4 = "https://automatic-reporting-system.onrender.com/api/tables";
-  const API5 = "https://automatic-reporting-system.onrender.com/api/uniqueformtypes";
+  
   const fetch1 = async (API) => {
     
     const result = await fetchGetApi (API);
-    console.log("result1",result);
+
     setClientList(result); 
   };
   const fetch2 = async (API) => {
     
     const result = await fetchGetApi (API);
-    console.log("result2",result);
+ 
     setSystemList(result); 
   };
 
   const fetch3 = async (API) => {
     
     const result = await fetchGetApi (API);
-    console.log("result3",result);
+
     setManufacturerList(result); 
   };
+  const toggleSelected1 = (index) => {
+    const selectedIndex = selected1.indexOf(index);
+    if (selectedIndex >= 0) {
+      setSelected1(selected1.filter((i) => i !== index));
+    } else {
+      setSelected1([...selected1, index]);
+    }
+  };
+
+  const toggleSelected2 = (index) => {
+    const selectedIndex = selected2.indexOf(index);
+    if (selectedIndex >= 0) {
+      setSelected2(selected2.filter((i) => i !== index));
+    } else {
+      setSelected2([...selected2, index]);
+    }
+  };
+  const selectedData1 = selected1.map((i) => list[i]);
+  const selectedData2 = selected2.map((i) => list[i]);
+  const newData1 = selectedData1.map(({ sensorname}) => ({
+    reportid:repId.reportid,
+    sensorname,
+    order1:0,
+
+  }));
+  
+  const newData2 = selectedData2.map(({ sensorname}) => ({
+    reportid:repId.reportid,
+    sensorname,
+    order1:0,
+    
+  }));
 
   useEffect(() => {
   fetch1(API1);
@@ -78,7 +252,7 @@ function FormCreate() {
 
   function ComponentOne() {
     return (<div className="formcreate-div">
-    <label  className="formcreate-label" htmlFor="dbSelect">
+    <label  htmlFor="dbSelect">
       <h1 className="formcreate-h1">Database Select:</h1>
       </label>
     <select className="formcreate-select" id="dbSelect" onChange={(e)=>handleDBSelection(e.target.value)}>
@@ -93,22 +267,21 @@ function FormCreate() {
   
   function ComponentTwo() {
     
-    return (<div className="formcreate-div">
-      <label className="formcreate-label">
-        <h1 className="formcreate-h1db">
-      <p>Selected database: {selectedDB}</p>
+    return (<div className="formcreate-div2">
+      <label>
+     <h1> <p>Selected database: {selectedDB}</p>
       </h1>
       </label>
-      <div className="formcreate-div">
+      <div className="formcreate-div2">
 <label>
     <h1 className="formcreate-h1">Create New Report</h1>
   </label>
   
-<form className="formcreate-form" onSubmit={(e)=>handleSubmit(e)}>
+<form className="formcreate=" onSubmit={(e)=>handleSubmit(e)}>
  <div className="formcreate-div2">
-  <label className="formcreate-label-2" htmlFor="userid">User ID</label>
+  <label className="formcreate-label2" htmlFor="userid">User ID</label>
   <input
-  className="formcreate-select"
+   className="formcreate-select"
     type="text"
     id="userid"
     name="userid"
@@ -117,9 +290,10 @@ function FormCreate() {
     placeholder={formValues.userid}
     disabled
   />
+  
   </div>
-  <div className="formcreate-div2">
-  <label className="formcreate-label-2" htmlFor="clientid">Client ID</label>
+  <div className="formcreate-div3">
+  <label className="formcreate-label2" htmlFor="clientid">Client ID</label>
   <input
   className="formcreate-select"
     type="text"
@@ -130,42 +304,11 @@ function FormCreate() {
     placeholder={Cid}
     disabled
   />
-  {/* <select
-  className="createreport-select"
-    type="text"
-    id="clientid"
-    name="clientid"
-    value={formValues.clientid}
-    onChange={handleChange}
-  >
-    <option value="" disabled >
-      Select an option
-    </option>
-    {getUniqueClients.map((cur, index) => (
-      <option key={index}>{cur}</option>
-    ))}
-  </select> */}
+
   </div>
-  {/* <div className="createreport-div2">
-  <label  className="createreport-label-2" htmlFor="reporttype">Report Type</label>
-  <select
-  className="createreport-select"
-    type="text"
-    id="reporttype"
-    name="reporttype"
-    value={formValues.reporttype}
-    onChange={handleChange}
-  >
-    <option value="" disabled >
-      Select an option
-    </option>
-    {getUniqueFormTypes.map((cur, index) => (
-      <option key={index}>{cur}</option>
-    ))}
-  </select>
-  </div> */}
-   <div className="formcreate-div2">
-  <label className="formcreate-label-2" htmlFor="systems">Systems</label>
+
+   <div className="formcreate-div3">
+  <label className="formcreate-label2" htmlFor="systems">Systems</label>
   <select
     className="formcreate-select"
     type="text"
@@ -181,9 +324,47 @@ function FormCreate() {
       <option key={index}>{cur}</option>
     ))}
   </select>
-  </div>   
-    <div className="formcreate-div2">
-  <label className="formcreate-label-2" htmlFor="manufacturer">Manufacturer</label>
+  </div>
+
+  <div className="formcreate-div3">
+  <label className="formcreate-label2" htmlFor="table1">Table</label>
+  <select
+    className="formcreate-select"
+    type="text"
+    id="table1"
+    name="table1"
+    value={formValues.table1}
+    onChange={(e)=>handleChangeTable1(e)}
+  >
+    <option value="" disabled >Select an option</option>
+    {table1.map((cur, index) => (
+      <option key={index}>{cur}</option>
+    ))}
+  </select>
+  </div>  
+   
+
+  <div className="formcreate-div3">
+  <label className="formcreate-label2" htmlFor="formtype">Form</label>
+  <select
+    className="formcreate-select"
+    type="text"
+    id="formtype"
+    name="formtype"
+    value={formValues.formtype}
+    onChange={handleChange}
+  >
+    <option value="" disabled >
+      Select an option
+    </option>
+    {formList.map((cur, index) => (
+      <option key={index}>{cur}</option>
+    ))}
+  </select>
+  </div>  
+ 
+    <div className="formcreate-div3">
+  <label className="formcreate-label2" htmlFor="manufacturer">Manufacturer</label>
   <select
     className="formcreate-select"
     type="text"
@@ -200,10 +381,10 @@ function FormCreate() {
     ))}
   </select>
   </div>
-   <div className="formcreate-div2">
-  <label className="formcreate-label-2" htmlFor="datebegin">Date Begin</label>
+   <div className="formcreate-div3">
+  <label className="formcreate-label2" htmlFor="datebegin">Date Begin</label>
   <input
-  className="formcreate-input"
+  className="formcreate-select"
     type="date"
     id="datebegin"
     name="datebegin"
@@ -211,43 +392,47 @@ function FormCreate() {
     onChange={handleChange}
     />
   </div>
-      <div className="formcreate-div2">
-  <label className="formcreate-label-2" htmlFor="timebegin">Time Begin</label>
+      <div className="formcreate-div3">
+  <label className="formcreate-label2" htmlFor="timebegin">Time Begin</label>
   <input
-  className="formcreate-input"
+  className="formcreate-select"
     type="time"
     id="timebegin"
     name="timebegin"
     value={formValues.timebegin}
     onChange={handleChange}
   />
-  {console.log("hii",formValues.datebegin)}
- { console.log(formValues.timebegin)}
+
   </div>
-  <div className="formcreate-div2">
-  <label className="formcreate-label-2" htmlFor="dateend">Date End</label>
+  <div className="formcreate-div3">
+  <label className="formcreate-label2" htmlFor="dateend">Date End</label>
   <input
-    className="formcreate-input"
+    className="formcreate-select"
     type="date"
     id="dateend"
     name="dateend"
     value={formValues.dateend}
     onChange={handleChange}
+    //date end not before date begin
+    min={formValues.datebegin}
+    disabled={!formValues.datebegin}
+
    />
   </div>
-  <div className="formcreate-div2">
-  <label className="formcreate-label-2" htmlFor="timeend">Time End</label>
+  <div className="formcreate-div3">
+  <label className="formcreate-label2" htmlFor="timeend">Time End</label>
   <input
-    className="formcreate-input"
+    className="formcreate-select"
     type="time"
     id="timeend"
     name="timeend"
     value={formValues.timeend}
     onChange={handleChange}
+    disabled={!formValues.datebegin}
   />
   </div>
-  <div className="formcreate-div2">
-  <label className="formcreate-label-2" htmlFor="timetype">Time Type</label>
+  <div className="formcreate-div3">
+  <label className="formcreate-label2" htmlFor="timetype">Time Type</label>
   <select
   className="formcreate-select"
     type="text"
@@ -265,35 +450,271 @@ function FormCreate() {
   </div>
   
   <div>
-  <button className="formcreate-button" type="submit">Next {">>"}</button>
-  
+  <button className="formcreate-button" >{"<<"}Previous  </button>
+  <button className="formcreate-button"onClick={()=>sendData()}>Save</button>
+  <button className="formcreate-button" type="submit">Continue {">>"} </button>
+  {isDateEndBeforeDateBegin() && (
+        <p>Date End cannot be before Date Begin</p>
+      )}
   
   </div>
 </form>
 
 
 </div>
-</div>);
+</div>
+);
   }
   
   function ComponentThree() {
     return (
-      <div>hi</div>
+      <div className="formcreate-container">
+      <div className="formcreate-heading">
+        <h1 className="formcreate-h1">Select The Columns For Setpoints Table and Columns Table</h1>
+ 
+        <h4 >Client Id:{Cid}</h4>   
+        <h4>Report ID:{repId.reportid}</h4>
+      </div>
+      <table className="formcreate-table">
+        <thead className="formcreate-thead">
+          <tr>
+            <th className="formcreate-th">Head1</th>
+            <th className="formcreate-th">Head2</th>
+            <th className="formcreate-th">Unit</th>
+            <th className="formcreate-th">Attribute</th>
+            <th className="formcreate-th">Columns for SetPoints Table</th>
+            <th className="formcreate-th">Columns for Final Report Table</th>
+          </tr>
+        </thead>
+        <tbody className="formcreate-tbody">
+          {list.map((item, index) => (
+            <tr key={index}>
+              <td className="formcreate-td">{item.head1}</td>
+              <td className="formcreate-td">{item.head2}</td>
+              <td className="formcreate-td">{item.unit}</td>
+              <td className="formcreate-td">{item.attribute}</td>
+              <td className="formcreate-td">
+                <input 
+                  type="checkbox"
+                  checked={selected1.indexOf(index) >= 0}
+                  onChange={() => toggleSelected1(index)}
+                />
+              </td>
+              <td className="formcreate-td">
+                <input
+                  type="checkbox"
+                  checked={selected2.indexOf(index) >= 0}
+                  onChange={() => toggleSelected2(index)}
+                /> 
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <button className="formcreate-button" >{"<<"}Previous  </button>
+      <button className="formcreate-button" onClick={submitList}>Save and Continue</button>
+      
+    
+    </div>
     );
   }
   
   function ComponentFour() {
-    return <h1>Component Four</h1>;
+    return (
+      <div className="finalformcreate-container">
+        <label className="finalformcreate-label">
+          Reorder Columns for Final Report
+        </label>
+       <table className="finalformcreate-table " htmlFor="#table">
+          <thead className="finalformcreate-thead">
+            <tr className="finalformcreate-tr">
+              {heading.map((header, col) => (
+                <th className="finalformcreate-th" key={col}>
+                  {col === 0 ? (
+                    <div>
+                      <th>
+                        <tr>{header.head1}</tr>
+                        <tr>{}</tr>
+                        <tr>{header.unit}</tr>
+                      </th>
+                    </div>
+                  ) : (
+                    <div>
+                      <th>
+                        <tr>{header.head1}</tr>
+                        <tr>{header.head2}</tr>
+                        <tr>{header.unit}</tr>
+                      </th>
+                    </div>
+                  )}
+                </th>
+              ))}
+            </tr>
+          </thead>
+  
+          <tbody className="finalformcreate-tbody">
+            {data.map((row, rowIndex) => (
+              <tr className="finalformcreate-tr" key={rowIndex}>
+                {row.map((cell, colIndex) => (
+                  <td className="finalformcreate-td" key={colIndex}>
+                    {colIndex === 0 && rowIndex > 0 ? (
+                      <input
+                        type="text"
+                        value={cell}
+                        onChange={(e) => handleInputChange(e, rowIndex, colIndex)}
+                      />
+                    ) : rowIndex > 0 ? (
+                      <select
+                        value={cell}
+                        onChange={(e) =>handleSelectChange(e, rowIndex, colIndex)
+}
+                      >
+                        <option value="-">{data[rowIndex][colIndex]}</option>
+                        {options.map((cur,index) => (
+                          <option key={index} value={cur[0]} >
+                            {cur[0]}
+                          </option>
+                        ))}
+                      </select>
+                    ) : (
+                      <></>
+                    )}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          <tr>
+          <button className="finalformcreate-add-button" onClick={addRow}>
+            Add Row
+          </button>
+
+          </tr>
+
+
+
+        
+            <tr className="finalformcreate-tr">
+              {headi2.map((header, col) => (
+                <th className="finalformcreate-th" key={col}>
+                  {col > 1 ? (
+                    <div >
+                      
+                      <button onClick={() => shiftLeft(col)}>&lt;</button>
+                      <div >
+                      <th>
+                      
+                        <tr>{header.head1}</tr>
+                        <tr>{header.head2}</tr>
+                        <tr>{header.unit}</tr>
+                      </th>
+                      </div>
+  
+                      <button onClick={() => shiftRight(col)}>&gt;</button>
+                    </div>
+                  ) : (
+                    <>
+                      {col === 1 ? (
+                        <div>
+                          <button onClick={() => shiftLeft(col)} disabled>
+                            &lt;
+                          </button>
+                          <th>
+                            <tr>{header.head1}</tr>
+                            <tr>{header.head2}</tr>
+                            <tr>{header.unit}</tr>
+                          </th>
+                          <button onClick={() => shiftRight(col)}>&gt;</button>
+                        </div>
+                      ) : (
+                        <div>
+                          <button onClick={() => shiftLeft(col)} disabled>
+                            &lt;
+                          </button>
+                          <th>
+                            <tr>{}</tr>
+                            <tr>{header.head2}</tr>
+                            <tr>{header.unit}</tr>
+                          </th>
+                          <button onClick={() => shiftRight(col)} disabled>
+                            &gt;
+                          </button>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </th>
+              ))}
+            </tr> 
+            {body.map((row, index) => (
+              <tr key={index}>
+                {row.map((cell, cellIndex) => (
+                  <td key={cellIndex}>{cell}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+          <button
+            className="finalformcreate-submit-button"
+            onClick={handlePrintClick}
+          >
+            Submit
+          </button>
+        </table>
+      </div>
+    );
   }
   
   function ComponentFive() {
     return <h1>Component Five</h1>;
   }
  
+const submitList= async ()=>{
 
-  const handleClickOne = () => {
-    console.log(tables, formValues);
-  };
+console.log(newData1,newData2);
+const response1 = await fetchPostApi(API8,newData1);
+const response2 = await fetchPostApi(API9,newData2);
+console.log(response1,response2);
+setShowComponentOne(false);
+setShowComponentTwo(false);
+setShowComponentThree(false);
+setShowComponentFour(true);
+setShowComponentFive(false);
+
+const delta = { reportid:repId.reportid ,databasename: formValues.databasename, tablename: formValues.table1 };
+
+const response3 =await fetchPostApi(API10,delta);
+console.log(response3);
+
+setHeading(response3.firstheader);
+const arr = {
+  sensorname: "S5",
+  head1: "Set Points",
+  head2: "Date and Time",
+  unit: "",
+  attributetype: "",
+  reporttype: "",
+};
+  // setOptions(response3.attributelist);
+
+setHeading([arr, ...response3.firstheader]);
+const pan=response3.body;
+var te = [[]];
+for (var i = 0; i < pan.length - 1; i++) {
+  te[i] = Object.values(pan[i]);
+}
+setHeadi2([arr,...response3.secondheader]);
+
+setBody(te);
+
+
+const trial = Object.entries(response3.attributelist);
+delete trial.CurDT;
+delete trial.CurT;
+ 
+console.log('=====',trial);
+setOptions(trial);
+
+};
 
   
   const handleDBSelection =async (event) => {
@@ -305,57 +726,87 @@ function FormCreate() {
     setShowComponentFive(false);
   
     const dat = await fetchPostApi(API4, { databasename:event });
-    setTables(dat);
-    // console.log(dat);
+    setTable1(dat);
+ 
     
   };
   const handleChange = (event) => {
+    
     setFormValues({
       ...formValues,
       [event.target.name]: event.target.value,
     });
+   
+  };
+  const handleChangeTable1 =async (event) => {
+    setFormValues({
+      ...formValues,
+      [event.target.name]: event.target.value,
+    });
+
+    // if(formValues.table){
+      const body={databasename:selectedDB, tablename: event.target.value};
+      const formslist= await fetchPostApi(API5,body);
+    
+      setFormList(formslist.formtypes);
+    // };
+  };
+
+  const isDateEndBeforeDateBegin = () => {
+    const startDateString = `${formValues.datebegin}T${formValues.timebegin}`;
+    const endDateString = `${formValues.dateend}T${formValues.timeend}`;
+    const startDate = new Date(startDateString);
+    const endDate = new Date(endDateString);
+    return endDate < startDate;
   };
 
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(formValues);
+    const repid = await fetchPostApi(API6,formValues);
+    setRepId(repid);
+
+
+    const gama = { databasename: formValues.databasename, tablename: formValues.table1, formtype: formValues.formtype };
+    const sensorlist = await fetchPostApi(API7,gama);
+   setList(sensorlist);
     setShowComponentOne(false);
     setShowComponentTwo(false);
     setShowComponentThree(true);
     setShowComponentFour(false);
     setShowComponentFive(false);
-    // setSelectedDB(event.target.value);
+  
+  };
+
+  const sendData = async ()=>{
     setFormValues({
       ...formValues,
       databasename: selectedDB,
-      clientid:Cid
+      clientid:Cid,
+      prechandler:'Creator',
+      nexthandler:'Creator',
+      version:'0',
+    
     });
+    console.log(formValues,"before send");
+   
   };
 
-  const handleClickFour = () => {
-    setShowComponentOne(false);
-    setShowComponentTwo(false);
-    setShowComponentThree(false);
-    setShowComponentFour(true);
-    setShowComponentFive(false);
-  };
 
-  const handleClickFive = () => {
-    setShowComponentOne(false);
-    setShowComponentTwo(false);
-    setShowComponentThree(false);
-    setShowComponentFour(false);
-    setShowComponentFive(true);
+  const handlePrintClick= () => {
+
+    console.log();
+    // setShowComponentOne(false);
+    // setShowComponentTwo(false);
+    // setShowComponentThree(false);
+    // setShowComponentFour(false);
+    // setShowComponentFive(true);
   };
 
   return (
     <div>
-      <button onClick={handleClickOne}>Component One</button>
-    
-     
-      <button onClick={handleClickFour}>Component Four</button>
-      <button onClick={handleClickFive}>Component Five</button>
-      <br />
-      <br />
+   
       {showComponentOne && <ComponentOne />}
       {showComponentTwo && <ComponentTwo />}
       {showComponentThree && <ComponentThree />}

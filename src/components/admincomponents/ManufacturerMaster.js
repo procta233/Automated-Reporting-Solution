@@ -11,7 +11,8 @@ function ManufacturerMaster() {
     console.log(`Editing Manufacturer with ID ${manufacturerid}`);
   };
   const fetch = async () => {
-    const API="https://automatic-reporting-system.onrender.com/api/manufacturers"
+    const URL=process.env.REACT_APP_URL;
+    const API=URL+"manufacturers"
     const result = await fetchGetApi (API);
     console.log("result",result);
     setManufacturers(result);

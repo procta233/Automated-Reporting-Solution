@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import "./componentscss/SystemCreate.css"
+import "./componentscss/SystemCreate.css";
+import {fetchPostApi} from "../../api/singlecall"
 
 function SystemCreate() {
+  const URL=process.env.REACT_APP_URL
   const [formValues, setFormValues] = useState({
-    systemId: '',
-    systemName: '',
-    logoId: '',
-       logoPath: '',
+    systemid: '',
+    systemname: '',
+    logoid: '',
+       logopath: '',
   });
 
   const handleInputChange = (event) => {
@@ -24,7 +26,7 @@ function SystemCreate() {
       //   logo: reader.result,
       // });
       // Save the image file to the systemlogostore directory
-      const fileName = `${formValues.systemId}_${formValues.logoId}_${file.name}`;
+      const fileName = `${formValues.systemid}_${formValues.logoid}_${file.name}`;
       const filePath = `../systemlogostore/${fileName}`;
       fetch(filePath, {
         method: 'PUT',
@@ -33,16 +35,22 @@ function SystemCreate() {
       }).then(() => {
         setFormValues({
           ...formValues,
-          logoPath: filePath,
+          logopath: filePath,
         });
       });
     };
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Here you can use the form data (formValues.systemId, formValues.systemName, formValues.logoId, formValues.logoPath)
-    // to submit the form to your backend or do whatever you need to do
+    const API=URL+"addsystems";
+
+      try {
+        const result = await fetchPostApi(API,formValues);
+        console.log(result); // do something with the result
+      } catch (error) {
+        console.log(error); // handle the error
+      }
     console.log(formValues);
   };
 
@@ -54,32 +62,32 @@ function SystemCreate() {
 
     <form className='systemcreate-form' onSubmit={handleSubmit}>
       <div className='systemcreate-div2' >
-        <label className='systemcreate-label2' htmlFor="systemId">System ID:</label>
+        <label className='systemcreate-label2' htmlFor="systemid">System ID:</label>
         <input className='systemcreate-input' 
           type="text"
-          id="systemId"
-          name="systemId"
-          value={formValues.systemId}
+          id="systemid"
+          name="systemid"
+          value={formValues.systemid}
           onChange={handleInputChange}
         />
       </div>
       <div className='systemcreate-div2' >
-        <label className='systemcreate-label2' htmlFor="systemName">System Name:</label>
+        <label className='systemcreate-label2' htmlFor="systemname">System Name:</label>
         <input className='systemcreate-input' 
           type="text"
-          id="systemName"
-          name="systemName"
-          value={formValues.systemName}
+          id="systemname"
+          name="systemname"
+          value={formValues.systemname}
           onChange={handleInputChange}
         />
       </div>
       <div className='systemcreate-div2' >
-        <label className='systemcreate-label2'  htmlFor="logoId">Logo ID:</label>
+        <label className='systemcreate-label2'  htmlFor="logoid">Logo ID:</label>
         <input className='systemcreate-input' 
           type="text"
-          id="logoId"
-          name="logoId"
-          value={formValues.logoId}
+          id="logoid"
+          name="logoid"
+          value={formValues.logoid}
           onChange={handleInputChange}
         />
       </div>
@@ -93,7 +101,7 @@ function SystemCreate() {
         />
       </div>
       <input className='systemcreate-button'  type="submit" value="Submit" />
-      <input className='systemcreate-input'  type="hidden" id="logoPath" name="logoPath" value={formValues.logoPath} />
+      <input className='systemcreate-input'  type="hidden" id="logopath" name="logopath" value={formValues.logopath} />
     </form>
     </div>
   );

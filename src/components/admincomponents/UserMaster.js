@@ -3,13 +3,14 @@ import "./componentscss/UserMaster.css";
 import {fetchGetApi} from "../../api/singlecall"
 
 function UserMaster() {
+  const URL=process.env.REACT_APP_URL;
   const [users, setUsers] = useState([
 
   ]);
   
 
   const fetch = async () => {
-    const API="https://automatic-reporting-system.onrender.com/api/users"
+    const API=URL+"/users"
     const result = await fetchGetApi (API);
     console.log("result",result);
     setUsers(result);

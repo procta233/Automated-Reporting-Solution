@@ -3,7 +3,7 @@ import "./componentscss/ClientDBCreate.css";
 import { fetchPostApi } from "../../api/singlecall";
 
 function ClientDBCreate() {
-
+  const URL=process.env.REACT_APP_URL;
   const [formValues, setFormValues] = useState({
     clientid: "",
     clientname: "",
@@ -52,8 +52,7 @@ function ClientDBCreate() {
     // Here you can use the form data (formValues.clientId, formValues.clientName, formValues.logoId, formValues.logoPath)
     // to submit the form to your backend or do whatever you need to do
     console.log(formValues);
-    const API =
-      "https://automatic-reporting-system.onrender.com/api/addCredential";
+    const API =URL+"addCredential";
     try {
       const result = await fetchPostApi(API, formValues);
       console.log(result); // do something with the result
