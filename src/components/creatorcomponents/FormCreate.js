@@ -14,6 +14,7 @@ function FormCreate() {
   const API8 = URL+'setpoints';
   const API9 = URL+"normalpoints";
   const API10 = URL+"advancesearch";
+  const API13=URL+"setPointData";
 
   const [showComponentOne, setShowComponentOne] = useState(true);
   const [showComponentTwo, setShowComponentTwo] = useState(false);
@@ -27,6 +28,9 @@ function FormCreate() {
   const [manufacturerList,setManufacturerList]=useState([]);
   const [table1,setTable1]=useState([]);
   const [formList,setFormList]=useState([]);
+  const[sel,setSel]=useState(null);
+  const [min_value,setmin_value]=useState("");
+  const [max_value,setmax_value]=useState("");
 
   const [formValues, setFormValues] = useState({
     userid: "ABS-896645467/Creator",
@@ -48,6 +52,7 @@ function FormCreate() {
     prechandler:'',
     nexthandler:'',
     count:1,
+    reportname:'',
 
   });
 
@@ -73,14 +78,51 @@ function FormCreate() {
 
   const handleSelectChange = (e, row, col) => {
     const newData = [...data];
-    newData[row][col] = e.target.value;
-    setData(newData);
+    // newData[row][col] = e.target.value;
+    // setData(newData);
+    const arr=options;
+     for (let i = 0; i < arr.length; i++) {
+    if (arr[i][0] === e.target.value) {
+      // console.log("Removing row:", arr[i]);
+     newData[row][col] = arr[i][1];
+     setData(newData);
+      arr.splice(i, 1);
+      i--; // Decrement i to account for the removed element
+      break;
+    }
+  }
+
     isSelected === false? setIsselected(true):setIsselected(false);
   };
 
-  const addRow = () => {
+  // const addRow = () => {
+  //  if (data.length-1 === 0)
+  //   {const len = heading.length;
+  //   const bet = data.length + 1;
+  // const t = [[]];
+  // for (var i = 0; i < bet; i++) {
+  //   var tt = [len];
+  //   for (var j = 0; j < len; j++) {
+  //     if (j !== 0) {
+  //       tt[j] = "-";
+  //     } else {
+  //       tt[j] = "";
+  //     }
+  //   }
+  //   console.log(tt);
+  //   t[i] = tt;
+  // }
+  // setData(t);}
+  // else {const newData = [...data];
+  //   newData.push(Array(data[0].length).fill(""));
+  //   setData(newData);};
+  // };
+
+const addRow = () => {
+    console.log("addrow",data.length)
    if (data.length-1 === 0)
-    {const len = heading.length;
+    {
+        const len = heading.length;
     const bet = data.length + 1;
   const t = [[]];
   for (var i = 0; i < bet; i++) {
@@ -92,15 +134,21 @@ function FormCreate() {
         tt[j] = "";
       }
     }
-    console.log(tt);
+    console.log("addrow",data.length,tt);
     t[i] = tt;
+    console.log("2d",t)
   }
-  setData(t);}
-  else {const newData = [...data];
-    newData.push(Array(data[0].length).fill(""));
-    setData(newData);};
+  setData(t);
+}
+  else {
+    const newData = [...data];
+    console.log("one",newData)
+    newData.push(Array(data[0].length).fill("-"));
+    newData[newData.length-1][0]=""
+    console.log("two",newData)
+    setData(newData);
+};
   };
-
   const shiftLeft = (col) => {
     var newdata = [...heading];
     console.log("newdata", newdata);
@@ -250,6 +298,19 @@ function FormCreate() {
   fetch3(API3);
   }, []);
 
+const fetch4 = async (APi,data2) => {
+    
+    const result1 = await fetchPostApi(APi,data2);
+    console.log("result1",result1);
+    //  FillSetPointData(result1.setdata);
+  };
+  const handleaddsetdata= async ()=>{
+    const blue ={reportid:repId.reportid,setdata:data};
+      const result= await fetch4(API13,blue);
+      console.log("addsetdata",result);
+      setSel(result);
+  }
+
   function ComponentOne() {
     return (<div className="formcreate-div">
     <label  htmlFor="dbSelect">
@@ -267,7 +328,7 @@ function FormCreate() {
   
   function ComponentTwo() {
     
-    return (<div className="formcreate-div2">
+    return (<div className="formcreate-divselecteddb">
       <label>
      <h1> <p>Selected database: {selectedDB}</p>
       </h1>
@@ -280,6 +341,7 @@ function FormCreate() {
 <form className="formcreate=" onSubmit={(e)=>handleSubmit(e)}>
  <div className="formcreate-div2">
   <label className="formcreate-label2" htmlFor="userid">User ID</label>
+  <div class="error-message">*This field is mandatory</div>
   <input
    className="formcreate-select"
     type="text"
@@ -292,8 +354,9 @@ function FormCreate() {
   />
   
   </div>
-  <div className="formcreate-div3">
+  <div className="formcreate-div2">
   <label className="formcreate-label2" htmlFor="clientid">Client ID</label>
+  <div class="error-message">*This field is mandatory</div>
   <input
   className="formcreate-select"
     type="text"
@@ -307,8 +370,9 @@ function FormCreate() {
 
   </div>
 
-   <div className="formcreate-div3">
+   <div className="formcreate-div2">
   <label className="formcreate-label2" htmlFor="systems">Systems</label>
+  <div class="error-message">*This field is mandatory</div>
   <select
     className="formcreate-select"
     type="text"
@@ -326,8 +390,9 @@ function FormCreate() {
   </select>
   </div>
 
-  <div className="formcreate-div3">
+  <div className="formcreate-div2">
   <label className="formcreate-label2" htmlFor="table1">Table</label>
+  <div class="error-message">*This field is mandatory</div>
   <select
     className="formcreate-select"
     type="text"
@@ -343,9 +408,24 @@ function FormCreate() {
   </select>
   </div>  
    
-
-  <div className="formcreate-div3">
+ <div className="formcreate-div2">
+  <label className="formcreate-label2" htmlFor="reportname">Report Name:</label>
+  <div class="error-message">*This field is mandatory</div>
+  <input
+   className="formcreate-select"
+    type="text"
+    id="reportname"
+    name="reportname"
+    placeholder="Enter the Report Name"
+    value={formValues.reportname}
+    onChange={handleChange}
+   
+  />
+  
+  </div>
+  <div className="formcreate-div2">
   <label className="formcreate-label2" htmlFor="formtype">Form</label>
+  <div class="error-message">*This field is mandatory</div>
   <select
     className="formcreate-select"
     type="text"
@@ -362,9 +442,11 @@ function FormCreate() {
     ))}
   </select>
   </div>  
+  
  
-    <div className="formcreate-div3">
+    <div className="formcreate-div2">
   <label className="formcreate-label2" htmlFor="manufacturer">Manufacturer</label>
+  <div class="error-message">*This field is mandatory</div>
   <select
     className="formcreate-select"
     type="text"
@@ -381,8 +463,9 @@ function FormCreate() {
     ))}
   </select>
   </div>
-   <div className="formcreate-div3">
+   <div className="formcreate-div2">
   <label className="formcreate-label2" htmlFor="datebegin">Date Begin</label>
+  <div class="error-message">*This field is mandatory</div>
   <input
   className="formcreate-select"
     type="date"
@@ -392,8 +475,9 @@ function FormCreate() {
     onChange={handleChange}
     />
   </div>
-      <div className="formcreate-div3">
+      <div className="formcreate-div2">
   <label className="formcreate-label2" htmlFor="timebegin">Time Begin</label>
+  <div class="error-message">*This field is mandatory</div>
   <input
   className="formcreate-select"
     type="time"
@@ -404,8 +488,9 @@ function FormCreate() {
   />
 
   </div>
-  <div className="formcreate-div3">
+  <div className="formcreate-div2">
   <label className="formcreate-label2" htmlFor="dateend">Date End</label>
+  <div class="error-message">*This field is mandatory</div>
   <input
     className="formcreate-select"
     type="date"
@@ -419,8 +504,9 @@ function FormCreate() {
 
    />
   </div>
-  <div className="formcreate-div3">
+  <div className="formcreate-div2">
   <label className="formcreate-label2" htmlFor="timeend">Time End</label>
+  <div class="error-message">*This field is mandatory</div>
   <input
     className="formcreate-select"
     type="time"
@@ -431,8 +517,9 @@ function FormCreate() {
     disabled={!formValues.datebegin}
   />
   </div>
-  <div className="formcreate-div3">
+  <div className="formcreate-div2">
   <label className="formcreate-label2" htmlFor="timetype">Time Type</label>
+  <div class="error-message">*This field is mandatory</div>
   <select
   className="formcreate-select"
     type="text"
@@ -655,9 +742,15 @@ function FormCreate() {
           </tbody>
           <button
             className="finalformcreate-submit-button"
+            onClick={handleaddsetdata}
+          >
+            Final Report Create
+          </button>
+          <button
+            className="finalformcreate-submit-button"
             onClick={handlePrintClick}
           >
-            Submit
+            Print
           </button>
         </table>
       </div>
@@ -749,6 +842,7 @@ setOptions(trial);
       const formslist= await fetchPostApi(API5,body);
     
       setFormList(formslist.formtypes);
+      // setmin_value(formslist)
     // };
   };
 
@@ -794,14 +888,12 @@ setOptions(trial);
   };
 
 
-  const handlePrintClick= () => {
+  const handlePrintClick= async() => {
 
-    console.log();
-    // setShowComponentOne(false);
-    // setShowComponentTwo(false);
-    // setShowComponentThree(false);
-    // setShowComponentFour(false);
-    // setShowComponentFive(true);
+    if (sel !== null){
+      window.location.reload();
+    };
+
   };
 
   return (

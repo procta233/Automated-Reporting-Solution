@@ -74,11 +74,13 @@ function ClientDBCreate() {
           <label className="clientdbcreate-label2" htmlFor="clientid">
             Client ID:
           </label>
+          <div class="error-message">*This field is mandatory</div>
           <input
             className="clientdbcreate-input"
             type="text"
             id="clientid"
             name="clientid"
+            placeholder=" Enter the Client ID"
             value={formValues.clientid}
             onChange={handleInputChange}
           />
@@ -87,11 +89,14 @@ function ClientDBCreate() {
           <label className="clientdbcreate-label2" htmlFor="clientname">
             Client Name:
           </label>
+          <div class="error-message">*This field is mandatory</div>
+
           <input
             className="clientdbcreate-input"
             type="text"
             id="clientname"
             name="clientname"
+            placeholder=" Enter the Client Name"
             value={formValues.clientname}
             onChange={handleInputChange}
           />
@@ -100,11 +105,14 @@ function ClientDBCreate() {
           <label className="clientdbcreate-label2" htmlFor="hostofdatabase">
             Host:
           </label>
+          <div class="error-message">*This field is mandatory</div>
+
           <input
             className="clientdbcreate-input"
             type="text"
             id="hostofdatabase"
             name="hostofdatabase"
+            placeholder=" Enter the Host"
             value={formValues.hostofdatabase}
             onChange={handleInputChange}
           />
@@ -114,11 +122,14 @@ function ClientDBCreate() {
           <label className="clientdbcreate-label2" htmlFor="userofdatabase">
             User :
           </label>
+          <div class="error-message">*This field is mandatory</div>
+
           <input
             className="clientdbcreate-input"
             type="text"
             id="userofdatabase"
             name="userofdatabase"
+            placeholder=" Enter User"
             onChange={handleInputChange}
           />
         </div>
@@ -127,11 +138,14 @@ function ClientDBCreate() {
           <label className="clientdbcreate-label2" htmlFor="logo">
             Logo:
           </label>
+          <div class="error-message">*This field is mandatory</div>
+
           <input
             className="clientdbcreate-input"
             type="file"
             id="logo"
             name="logo"
+            placeholder=" Attach Required Logo"
             onChange={handleLogoChange}
           />
         </div>
@@ -139,11 +153,15 @@ function ClientDBCreate() {
           <label className="clientdbcreate-label2" htmlFor="passwordofdatabase">
             Password :
           </label>
+          <div class="error-message">*This field is mandatory</div>
+
           <input
             className="clientdbcreate-input"
             type="password"
             id="passwordofdatabase"
             name="passwordofdatabase"
+            placeholder=" Enter your Password"
+
             onChange={handleInputChange}
           />
         </div>
@@ -152,11 +170,14 @@ function ClientDBCreate() {
           <label className="clientdbcreate-label2" htmlFor="databasename">
             Database Name :
           </label>
+          <div class="error-message">*This field is mandatory</div>
+
           <input
             className="clientdbcreate-input"
             type="text"
             id="databasename"
             name="databasename"
+            placeholder=" Enter the Database Name"
             onChange={handleInputChange}
           />
         </div>
@@ -165,11 +186,14 @@ function ClientDBCreate() {
           <label className="clientdbcreate-label2" htmlFor="connectionLimit">
             Connections :
           </label>
+          <div class="error-message">*This field is mandatory</div>
+
           <input
             className="clientdbcreate-input"
             type="text"
             id="connectionLimit"
             name="connectionLimit"
+            placeholder=" Enter the Connections"
             onChange={handleInputChange}
           />
         </div>
@@ -178,11 +202,14 @@ function ClientDBCreate() {
           <label className="clientdbcreate-label2" htmlFor="queueLimit">
             Queue Limit :
           </label>
+          <div class="error-message">*This field is mandatory</div>
+
           <input
             className="clientdbcreate-input"
             type="text"
             id="queueLimit"
             name="queueLimit"
+            placeholder=" Enter Queue Limit"
             onChange={handleInputChange}
           />
         </div>

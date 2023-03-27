@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import { fetchPostApi } from "../api/singlecall";
 
-
+import { useLocation } from "react-router-dom";
 
 
 function ViewBoard() {
@@ -10,15 +10,20 @@ function ViewBoard() {
     const API10 = URL+"advancesearch";
     const API11=URL+"description/reportid";
     const API12=URL+"getsetdata/reportid";
-    const [description,setdec]=useState({clientid:"",systems:"",manufacturer:"",datebegin:"",timebegin:"",dateend:"",timeend:""});
+    const [description,setdec]=useState({clientid:"",systems:"",manufacturer:"",datebegin:"",timebegin:"",dateend:"",timeend:"",reportname:""});
     const [clientname,setclientname]=useState("");
-    const [setponitdata,FillSetPointData]=useState([[]]);
+    const [data,FillSetPointData]=useState([['HHSP', '500', '-', '-','-','-'],
+     ['HSP', '-', '1000', '-','-','-'],
+     ['SCSP', '5800', '-', '1.3','-','-'],
+     ['CSP', '-', '13.5', '-','-','-']]);
+    const {state} = useLocation();
+    
 
-  const [data, setData] = useState([ 
-  ['HHSP', '500', '-', '-','-','-'],
-  ['HSP', '-', '1000', '-','-','-'],
-  ['SCSP', '5800', '-', '1.3','-','-'],
-  ['CSP', '-', '13.5', '-','-','-']]);
+  // const [data, setData] = useState([ 
+  // ['HHSP', '500', '-', '-','-','-'],
+  // ['HSP', '-', '1000', '-','-','-'],
+  // ['SCSP', '5800', '-', '1.3','-','-'],
+  // ['CSP', '-', '13.5', '-','-','-']]);
   const [body, setBody] = useState([]);
   const [headi2, setHeadi2] = useState([[]]);
   const [heading, setHeading] = useState([]);
@@ -35,7 +40,7 @@ function ViewBoard() {
     
     const result1 = await fetchPostApi (AP,data2);
       console.log("result1",result1);
-     FillSetPointData(result1.setdata);
+    //  FillSetPointData(result1.setdata);
 
   };
   const xat=async()=>{
@@ -43,7 +48,8 @@ function ViewBoard() {
 
 // const response3 =await fetchPostApi(API10,delta);
 // console.log(response3);
-    const delta = { reportid:"11000001I_13" ,databasename:"bz2vx6b6k3kn9nlapzd9", tablename:"cLIENT_2_table_1"};
+const delta = { reportid:state.alfa ,databasename:"bz2vx6b6k3kn9nlapzd9", tablename:"cLIENT_2_table_1"};
+   
     const response3 =await fetchPostApi(API10,delta);
     console.log(response3);
     setHeading(response3.firstheader);
@@ -55,7 +61,7 @@ function ViewBoard() {
       attribute: "",
       formtype: "",
     };
-    setHeading([arr, ...response3.firstheader]);
+    setHeading([arr, ...response3.firstheader]) ;
     const pan=response3.body;
     var te = [[]];
     for (var i = 0; i < pan.length - 1; i++) {
@@ -66,9 +72,12 @@ function ViewBoard() {
 };
 
 useEffect(() => {
-  const x={reportid:"11000001I_6"}
-  fetch1(API12,x)
-  fetch2(API11,x);
+  
+  const xx={reportid:state.alfa};
+ 
+
+   fetch1(API12,xx);
+   fetch2(API11,xx);
   xat();
 }, []);
 
@@ -83,7 +92,7 @@ const handlePrint =() =>{
      
       <table className="finalformcreate-table " htmlFor="#table" style={{ borderWidth:"0.5px", borderColor: "black" }}>
         <thead className="finalformcreate-thead">
-        <tr className="finalformcreate-tr"><th colSpan={heading.length} style={{textAlign:"center"}}>PW DISTRIIBUTION SYSYTEM <br/>{"(LIQUID BLOCK) - OPERATION REPORT"}</th></tr>
+        <tr className="finalformcreate-tr"><th colSpan={heading.length} style={{textAlign:"center"}}>{description.reportname}</th></tr>
             <tr className="finalformcreate-tr"><th>Client </th><th colSpan={heading.length-1}>{clientname}</th></tr>
             <tr className="finalformcreate-tr"><th>System Name</th><th colSpan={heading.length-1}>{description.systems}</th></tr>
             <tr className="finalformcreate-tr"><th>Manufactured By </th><th colSpan={heading.length-1}>{description.manufacturer}</th></tr>
@@ -159,7 +168,7 @@ const handlePrint =() =>{
                           <tr>{header.head2}</tr>
                           <tr>{header.unit}</tr>
                         </th>
-                      
+                      \
                       </div>
                     ) : (
                       <div>

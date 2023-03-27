@@ -84,6 +84,7 @@ const UserCreation = () => {
         <div className="usercreation-div2">
 
           <label className="usercreation-label-2">User ID</label>
+          <div class="error-message">*This field is mandatory</div>
           <input
             className="usercreation-input"
             type="text"
@@ -91,7 +92,7 @@ const UserCreation = () => {
             name="userid"
             value={values.userid}
             onChange={changeHandler}
-         
+            placeholder=" Enter your User Id"
             required
           />
          
@@ -99,12 +100,14 @@ const UserCreation = () => {
 
         <div className="usercreation-div2">
           <label className="usercreation-label-2">Username</label>
-          <div class="error-message">This field is mandatory</div>
+          <div class="error-message">*This field is mandatory</div>
           <input
             className="usercreation-input"
             type="text"
             id="username"
             name="username"
+            placeholder=" Enter your Username"
+
             value={values.username}
             onChange={changeHandler}
             required
@@ -112,12 +115,13 @@ const UserCreation = () => {
         </div>
         <div className="usercreation-div2">
           <label className="usercreation-label-2">Employee ID</label>
-          <div class="error-message">This field is mandatory</div>
+          <div class="error-message">*This field is mandatory</div>
           <input
             className="usercreation-input"
             type="text"
             id="employid"
             name="employid"
+            placeholder=" Enter your Employee ID"
             value={values.employid}
             onChange={changeHandler}
             required
@@ -125,23 +129,25 @@ const UserCreation = () => {
         </div>
         <div className="usercreation-div2">
           <label className="usercreation-label-2">Department</label>
-          <div class="error-message">This field is mandatory</div>
+          <div class="error-message">*This field is mandatory</div>
           <input
             className="usercreation-input"
             type="text"
             id="department"
             name="department"
+            placeholder=" Enter your Department"
             value={values.department}
             onChange={changeHandler}
           />
         </div>
         <div className="usercreation-div2">
           <label className="usercreation-label-2">User Type</label>
-          <div class="error-message">This field is mandatory</div>
+          <div class="error-message">*This field is mandatory</div>
           <select
             className="usercreation-select"
             id="usertype"
             name="usertype"
+            placeholder=" Select User Type"
             onChange={changeHandler}
             required
           >
@@ -164,12 +170,14 @@ const UserCreation = () => {
         </div>
         <div className="usercreation-div2">
           <label className="usercreation-label-2">Phone Number*</label>
-          <div class="error-message">This field is mandatory</div>
+          <div class="error-message">*This field is mandatory</div>
           <input
             className="usercreation-input"
             type="tel"
             id="phonenumber"
             name="phonenumber"
+            placeholder=" Enter your Phone Number"
+            
             value={values.phonenumber}
             onChange={changeHandler}
             required
@@ -177,12 +185,13 @@ const UserCreation = () => {
         </div>
         <div className="usercreation-div2">
           <label className="usercreation-label-2">Email*</label>
-          <div class="error-message">This field is mandatory</div>
+          <div class="error-message">*This field is mandatory</div>
           <input
             className="usercreation-input"
             type="email"
             id="email"
             name="email"
+            placeholder=" Enter your Email"
             value={values.email}
             onChange={changeHandler}
             required

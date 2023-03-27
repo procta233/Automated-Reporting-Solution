@@ -1,54 +1,7 @@
 import React, { useState } from "react";
 import "../components/admincomponents/componentscss/FormList.css";
 const reportData = [
-  {
-    reportid: "2022-01-11 000009",
-    clientid: 101,
-    reporttype: "Auto",
-    systems: "Third Test System",
-    manufacturer: "Third Test Mnaufacturer",
-    date: "2022-01-11",
-    timebegin: "09:00:00",
-    dateend: "2022-01-31",
-    timeend: "17:00:00",
-    status: "Created",
-  },
-  {
-    reportid: "2022-03-09 0000019",
-    clientid: 102,
-    reporttype: "Auto",
-    systems: "Second Test System",
-    manufacturer: "Second Test Mnaufacturer",
-    date: "2022-03-09",
-    timebegin: "09:00:00",
-    dateend: "2022-01-31",
-    timeend: "17:00:00",
-    status: "Returned",
-  },
-  {
-    reportid: "2022-02-10 000007",
-    clientid: 103,
-    reporttype: "Auto",
-    systems: "First Test System",
-    manufacturer: "First Test Mnaufacturer",
-    date: "2022-02-10",
-    timebegin: "09:00:00",
-    dateend: "2022-01-31",
-    timeend: "17:00:00",
-    status: "Approved",
-  },
-  {
-    reportid: "2022-02-10 0000021",
-    clientid: 104,
-    reporttype: "Auto",
-    systems: "Third Test System",
-    manufacturer: "Third Test Mnaufacturer",
-    date: "2022-02-10",
-    timebegin: "09:00:00",
-    dateend: "2022-01-31",
-    timeend: "17:00:00",
-    status: "Checked",
-  },
+
 ];
 
 function Creator(props) {

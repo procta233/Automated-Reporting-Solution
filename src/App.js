@@ -40,8 +40,8 @@ const App = () => {
             <Route exact path="/admin/manufacturercreate" element={<ManufacturerCreate />}/>
             <Route exact path="/admin/mapmodule" element={<MapModule />}/>
           <Route path="/creator" element={<Creator />} />
-          <Route path="/edit" element={<EditComponents />} />
-           <Route path="/approver" element={<Approver />} />
+           <Route exaxt path="/creator/edit" element={<EditComponents />} />
+          <Route path="/approver" element={<Approver />} />
           <Route path="/checker" element={<Checker />} />
           <Route path="/testpage" element={<Testing />} />
           <Route path="/testpage2" element={<Testing2 />} />

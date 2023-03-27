@@ -63,6 +63,7 @@ function SystemCreate() {
     <form className='systemcreate-form' onSubmit={handleSubmit}>
       <div className='systemcreate-div2' >
         <label className='systemcreate-label2' htmlFor="systemid">System ID:</label>
+        <div class="error-message">*This field is mandatory</div>
         <input className='systemcreate-input' 
           type="text"
           id="systemid"
@@ -73,6 +74,7 @@ function SystemCreate() {
       </div>
       <div className='systemcreate-div2' >
         <label className='systemcreate-label2' htmlFor="systemname">System Name:</label>
+        <div class="error-message">*This field is mandatory</div>
         <input className='systemcreate-input' 
           type="text"
           id="systemname"
@@ -83,6 +85,7 @@ function SystemCreate() {
       </div>
       <div className='systemcreate-div2' >
         <label className='systemcreate-label2'  htmlFor="logoid">Logo ID:</label>
+        <div class="error-message">*This field is mandatory</div>
         <input className='systemcreate-input' 
           type="text"
           id="logoid"
@@ -93,6 +96,7 @@ function SystemCreate() {
       </div>
       <div className='systemcreate-div2' >
         <label className='systemcreate-label2'  htmlFor="logo">Logo:</label>
+        <div class="error-message">*This field is mandatory</div>
         <input className='systemcreate-input' 
           type="file"
           id="logo"

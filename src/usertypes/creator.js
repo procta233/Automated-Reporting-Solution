@@ -58,6 +58,7 @@ function Creator() {
         <button className="admin-sidebar-toggle" onClick={handleToggleSidebar}>
           {isSidebarVisible ? "<<" : ">>"}
         </button>
+        <h1>Creator Profile</h1>
           <ul>
             <li className={selected === 'user-creation' ? 'active' : ''}>
               <div onClick={() => handleClick('user-creation')}>FormCreate</div>

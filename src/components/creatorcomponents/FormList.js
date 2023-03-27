@@ -1,62 +1,19 @@
-import React, { useState } from "react";
+import React, {useState ,useEffect } from "react";
 import "../admincomponents/componentscss/FormList.css";
-const reportData = [
-  {
-    reportid: "2022-01-11 000009",
-    clientid: 101,
-    reporttype: "Auto",
-    systems: "Third Test System",
-    manufacturer: "Third Test Mnaufacturer",
-    date: "2022-01-11",
-    timebegin: "09:00:00",
-    dateend: "2022-01-31",
-    timeend: "17:00:00",
-    status: "Created",
-  },
-  {
-    reportid: "2022-03-09 0000019",
-    clientid: 102,
-    reporttype: "Auto",
-    systems: "Second Test System",
-    manufacturer: "Second Test Mnaufacturer",
-    date: "2022-03-09",
-    timebegin: "09:00:00",
-    dateend: "2022-01-31",
-    timeend: "17:00:00",
-    status: "Returned",
-  },
-  {
-    reportid: "2022-02-10 000007",
-    clientid: 103,
-    reporttype: "Auto",
-    systems: "First Test System",
-    manufacturer: "First Test Mnaufacturer",
-    date: "2022-02-10",
-    timebegin: "09:00:00",
-    dateend: "2022-01-31",
-    timeend: "17:00:00",
-    status: "Approved",
-  },
-  {
-    reportid: "2022-02-10 0000021",
-    clientid: 104,
-    reporttype: "Auto",
-    systems: "Third Test System",
-    manufacturer: "Third Test Mnaufacturer",
-    date: "2022-02-10",
-    timebegin: "09:00:00",
-    dateend: "2022-01-31",
-    timeend: "17:00:00",
-    status: "Checked",
-  },
-];
+import {useNavigate } from "react-router-dom";
+import { fetchGetApi } from "../../api/singlecall";
 
-function Creator(props) {
+
+
+function Creator() {
   const [reportTypeSearchTerm, setReportTypeSearchTerm] = useState("");
   const [dateSearchTerm, setDateSearchTerm] = useState("");
   const [statusSearchTerm, setStatusSearchTerm] = useState("");
   const [reportSearchTerm, setReportSearchTerm] = useState("");
-  const [isSelected, setIsSelected] = useState(true);
+  const navigate=useNavigate();
+  const URL=process.env.REACT_APP_URL;
+  const API10 = URL+"reports";
+  const [reportData,setReportData] =useState ([]);
 
   const handleReportTypeSearchTermChange = (event) => {
     setReportTypeSearchTerm(event.target.value);
@@ -72,11 +29,23 @@ function Creator(props) {
   const handleReportSearchTermChange = (event) => {
     setReportSearchTerm(event.target.value);
   };
+  const fetch = async () => {
+    
+    const result = await fetchGetApi (API10);
+    console.log("result",result);
+    setReportData(result);
+ 
+  };
+  
+    useEffect(() => {
+      fetch();
+    
+    }, []);
 
   const filteredData = reportData.filter((report) => {
-    const reportTypeFieldValue = report.reporttype;
-    const dateFieldValue = report.date;
-    const statusFieldValue = report.status;
+    const reportTypeFieldValue = report.reportname;
+    const dateFieldValue = report.datebegin;
+    const statusFieldValue = report.status1;
     const reportFeildValue = report.reportid;
 
     return (
@@ -89,33 +58,21 @@ function Creator(props) {
     );
   });
 
-  const [data, setData] = useState([
-    ["HHSP", "500", "-", "-"],
-    ["HSP", "", "1000", ""],
-    ["SCSP", "5800", "", "1.3"],
-    ["CSP", "", "13.5", ""],
-  ]);
-  const [body, setBody] = useState([]);
-  const [headi2, setHeadi2] = useState([[]]);
+const setid =(event)=>{
+  event.preventDefault();
+  const alfa=event.target.value;
+  navigate('/creator/edit', { state: { alfa} });
+};
 
-  const [heading, setHeading] = useState([]);
-
-  const handlePrintClick = () => {
-    props.modalsel();
-  };
-
-  const handlePrint = () => {
-    window.print();
-  };
 
   return (
     <div className="formlist-div">
-      <>
+    
         <label className="formlist-label" >
           <h1 className="formlist-h1">Created Reports</h1>
         </label>
-        {isSelected === true ? (
-          <>
+      
+       
             <table className="formlist-table">
               <thead className="formlist-thead">
                 <tr className="formlist-thead-tr">
@@ -147,8 +104,8 @@ function Creator(props) {
                     >
                       <option value={""}>ALL</option>
                       {reportData.map((cur, index) => (
-                        <option key={index} value={cur.reporttype}>
-                          {cur.reporttype}
+                        <option key={index} value={cur.reportname}>
+                          {cur.reportname}
                         </option>
                       ))}
                     </select>
@@ -193,11 +150,11 @@ function Creator(props) {
                 {filteredData.map((report) => (
                   <tr className="formlist-tbody-tr" key={report.reportid}>
                     <td className="formlist-tbody-td">{report.reportid}</td>
-                    <td className="formlist-tbody-td">{report.reporttype}</td>
-                    <td className="formlist-tbody-td">{report.date}</td>
-                    <td className="formlist-tbody-td">{report.status}</td>
+                    <td className="formlist-tbody-td">{report.reportname}</td>
+                    <td className="formlist-tbody-td">{report.datebegin}</td>
+                    <td className="formlist-tbody-td">{report.status1}</td>
                     <td className="formlist-tbody-td">
-                      <button onClick={() => setIsSelected(false)}>View</button>
+                      <button value={report.reportid} onClick={(e) => setid(e)}>View</button>
                     </td>
                     <td className="formlist-tbody-td">
                       <button>Edit</button>
@@ -206,158 +163,9 @@ function Creator(props) {
                 ))}
               </tbody>
             </table>
-          </>
-        ) : (
-          <>
-            <div className="formlist-container">
-              <table
-                className="formlist-table "
-                htmlFor="#table"
-                style={{ borderWidth: "0.5px", borderColor: "black" }}
-              >
-                <thead className="formlist-thead">
-                  <tr className="formlist-tr">
-                    <th
-                      colSpan={heading.length}
-                      style={{ textAlign: "center" }}
-                    >
-                      PW DISTRIIBUTION SYSYTEM <br />
-                      {"(LIQUID BLOCK) - OPERATION REPORT"}
-                    </th>
-                  </tr>
-                  <tr className="formlist-tr">
-                    <th>Client </th>
-                    <th colSpan={heading.length - 1}>
-                      M/s ALFA BIOMED INDIA PVT.LTD,PUNE
-                    </th>
-                  </tr>
-                  <tr className="formlist-tr">
-                    <th>System Name</th>
-                    <th colSpan={heading.length - 1}>
-                      PW DISTRIBUTION SYSTEM(LIQUID BLOCK){" "}
-                    </th>
-                  </tr>
-                  <tr className="formlist-tr">
-                    <th>Manufactured By </th>
-                    <th colSpan={heading.length - 1}>
-                      M/s.PRAJ HIPURITY SYSTEMS LTD.,MUMBAI
-                    </th>
-                  </tr>
-                  <tr className="formlist-tr">
-                    <th>From Date and Time</th>
-                    <th colSpan={heading.length - 1}>06/01/2023 10:26:11</th>
-                  </tr>
-                  <tr className="formlist-tr">
-                    <th>To Date and Time </th>
-                    <th colSpan={heading.length - 1}>
-                      06/01/2023 12:35:11.000
-                    </th>
-                  </tr>
-                  <tr className="formlist-tr">
-                    {" "}
-                    <th colSpan={heading.length}></th>
-                  </tr>
+          </div>
+        ) 
 
-                  <tr className="formlist-tr">
-                    {heading.map((header, col) => (
-                      <th className="formlist-th" key={col}>
-                        {col === 0 ? (
-                          <div>
-                            <th>
-                              <tr>{header.head1}</tr>
-                              <tr>{}</tr>
-                              <tr>{header.unit}</tr>
-                            </th>
-                          </div>
-                        ) : (
-                          <div>
-                            <th>
-                              <tr>{header.head1}</tr>
-                              <tr>{header.head2}</tr>
-                              <tr>{header.unit}</tr>
-                            </th>
-                          </div>
-                        )}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-
-                <tbody className="formlist-tbody">
-                  {data.map((row, rowIndex) => (
-                    <tr className="formlist-tr" key={rowIndex}>
-                      {row.map((cell, colIndex) => (
-                        <td className="formlist-td" key={colIndex}>
-                          {cell}
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-
-                  <tr className="formlist-tr">
-                    {headi2.map((header, col) => (
-                      <th className="formlist-th" key={col}>
-                        {col > 1 ? (
-                          <div>
-                            <div>
-                              <th>
-                                <tr>{header.head1}</tr>
-                                <tr>{header.head2}</tr>
-                                <tr>{header.unit}</tr>
-                              </th>
-                            </div>
-                          </div>
-                        ) : (
-                          <>
-                            {col === 1 ? (
-                              <div>
-                                <th>
-                                  <tr>{header.head1}</tr>
-                                  <tr>{header.head2}</tr>
-                                  <tr>{header.unit}</tr>
-                                </th>
-                              </div>
-                            ) : (
-                              <div>
-                                <th>
-                                  <tr>{}</tr>
-                                  <tr>{header.head2}</tr>
-                                  <tr>{header.unit}</tr>
-                                </th>
-                              </div>
-                            )}
-                          </>
-                        )}
-                      </th>
-                    ))}
-                  </tr>
-                  {body.map((row, index) => (
-                    <tr key={index}>
-                      {row.map((cell, cellIndex) => (
-                        <td key={cellIndex}>{cell}</td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-                <button
-                  className="formlist-submit-button"
-                  onClick={handlePrintClick}
-                >
-                  Submit
-                </button>
-                <button
-                  className="formlist-submit-button"
-                  onClick={handlePrint}
-                >
-                  Print
-                </button>
-              </table>
-            </div>
-          </>
-        )}
-      </>
-    </div>
-  );
 }
 
 export default Creator;

@@ -65,6 +65,7 @@ function ManufacturerCreate() {
     <form  className='manufacturercreate-form' onSubmit={handleSubmit}>
       <div className='manufacturercreate-div2'>
         <label className='manufacturercreate-label2' htmlFor="manufacturerid">Manufacturer ID:</label>
+        <div class="error-message">*This field is mandatory</div>
         <input className='manufacturercreate-input'
           type="text"
           id="manufacturerid"
@@ -75,6 +76,7 @@ function ManufacturerCreate() {
       </div>
       <div className='manufacturercreate-div2'>
         <label className='manufacturercreate-label2' htmlFor="manufacturername">Manufacturer Name:</label>
+        <div class="error-message">*This field is mandatory</div>
         <input className='manufacturercreate-input'
           type="text"
           id="manufacturername"
@@ -85,6 +87,7 @@ function ManufacturerCreate() {
       </div>
       <div className='manufacturercreate-div2'>
         <label className='manufacturercreate-label2' htmlFor="logoid">Logo ID:</label>
+        <div class="error-message">*This field is mandatory</div>
         <input className='manufacturercreate-input'
           type="text"
           id="logoid"
@@ -95,6 +98,7 @@ function ManufacturerCreate() {
       </div>
       <div className='manufacturercreate-div2'>
         <label className='manufacturercreate-label2' htmlFor="logo">Logo:</label>
+        <div class="error-message">*This field is mandatory</div>
         <input className='manufacturercreate-input'
           type="file"
           id="logo"
