@@ -47,7 +47,7 @@
   background-color: #ddd;
 }
 
-.finalformcreate-table input[type="text"],
+/* .finalformcreate-table input[type="text"], */
 .finalformcreate-table select {
   padding: 8px;
   font-size: 16px;
@@ -109,6 +109,8 @@
   color: #000;
 }
 
+
+/* CCS FOR FORM   */
 
 .formcreate-div {
  
@@ -194,7 +196,7 @@
   align-items: left;
   text-align: left;
   justify-content: center;
-  font: ;
+  font: 10px;
 }
 
 .formcreate-div2 .error-message {
@@ -227,6 +229,7 @@
   color: #333;
   margin-bottom: 8px;
 }
+
 .formcreate-input {
   border: 1px solid #090909;
   border-radius: 5px;
@@ -259,16 +262,6 @@
 
 }
 
-/* .formcreate-input:focus{
-  outline: none;
-  border-bottom: 1px solid #007bff;
-}
-
-
-.formcreate-select:focus{
-  outline: none;
-  border-bottom: 1px solid #007bff;
-} */
 
 
 .formcreate-button {
@@ -351,7 +344,7 @@ color: #2c4df2;
   background-color: #ddd;
 }
 
-.formcreate-input[type="text"],
+/* .formcreate-input[type="text"], */
 
 
 
@@ -360,29 +353,3 @@ color: #2c4df2;
   opacity: 0.5;
   cursor: not-allowed;
 }
-
-/* 
-.formcreate-button {
-    width: 50%;
-    height: 40px;
-    background-color:#f3f4f6;
-    color: white;
-    font-size: 1.2rem;
-    font-weight: 500;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.5s ease-in-out;
-}
-
-.formcreate-table button:hover {
-  background-color: #acb5ee;
-
-}
-
-.formcreate-table button:active {
-  background-color: #e7e7e7;
-  color: #000;
-}
-
- */

@@ -55,8 +55,29 @@ const handleOption1Select = (e) => {
     const beta = { databasename: DBChoose, tablename: e };
     const data=await fetchPostApi(API3, beta)
       setOptions3(data.formtypes);
+      if(data.formtypes.length>0){
+      setFChoose(data.formtypes[0]);
+      console.log("autoform",data.formtypes[0])
+    setNewF(data.formtypes[0]);
+
+    const gama = { databasename: DBChoose, tablename: e, formtype: data.formtypes[0] };
+
+    const delta = { databasename: DBChoose, tablename: e };
+
+    const data2=await fetchPostApi(API5, gama);
+    setRows(data2);
+   
+    const data1= await fetchPostApi(API4, delta);
+     const finalattList=filterAttributes(data2,data1)
+    setAtlist(finalattList);
+      }
+      else{
+         setFChoose("F_"+DBChoose+TBChoose);
+    setRows([]);
+      }
       setNewF(data.nextformtype);
       console.log(data);
+      
     };
   
   const clickhandler4 = async () => {
@@ -92,7 +113,7 @@ const handleOption1Select = (e) => {
     const head1 = event.target.elements.head1.value;
     const head2 = event.target.elements.head2.value;
     const unit = event.target.elements.unit.value;
-    const attribute = event.target.elements.attribute.value;
+    const attribute = '1';
     const newatt =atList.filter(item => item !== attribute)
     setAtlist(newatt)
     setRows((prevRows) => [...prevRows, { head1, head2, unit, attribute }]);
@@ -149,7 +170,7 @@ const handleOption1Select = (e) => {
       )}
       {DBChoose && TBChoose && !FChoose && (
         <div className="mapmodule-div8">
-          <label className="mapmodule-l">
+          {/* <label className="mapmodule-l">
             <h1 className="mapmodule-h2">
           <p>Database Selected: {DBChoose}</p>
           </h1>
@@ -158,6 +179,7 @@ const handleOption1Select = (e) => {
           </h1>
           </label>
           <select className="mapmodule-option" onChange={(e) => handleOption3Select(e.target.value)}>
+          <button  value={options3[0]} onClick={(e) => handleOption3Select(e.target.value)}>Previous Form</button>
             <option >Select option </option>
             {options3.map((option, key) => (
               <option key={key} value={option}>
@@ -165,7 +187,8 @@ const handleOption1Select = (e) => {
               </option>
             ))}
           </select>
-          <button className="mapmodule-select" onClick={() => clickhandler4()}>Create New FormType</button>
+       <button  onClick={() => clickhandler4()}>Create New FormType</button>  */}
+       Fetching data
         </div>
       )}
 
@@ -184,7 +207,7 @@ const handleOption1Select = (e) => {
                 <th className="mapmodule-th">Head1</th>
                 <th className="mapmodule-th">Head2</th>
                 <th className="mapmodule-th">Unit</th>
-                <th className="mapmodule-th">Attribute Type</th>
+                {/* <th className="mapmodule-th">Attribute Type</th> */}
               </tr>
             </thead>
             <tbody className="mapmodule-tbody">
@@ -193,7 +216,7 @@ const handleOption1Select = (e) => {
                   <td className="mapmodule-td">{row.head1}</td>
                   <td  className="mapmodule-td">{row.head2}</td>
                   <td  className="mapmodule-td">{row.unit}</td>
-                  <td  className="mapmodule-td">{row.attribute}</td>
+                  {/* <td  className="mapmodule-td">{row.attribute}</td> */}
                 </tr>
               ))}
             </tbody>
@@ -205,7 +228,7 @@ const handleOption1Select = (e) => {
                   <th  className="mapmodule-th">Head1</th>
                   <th  className="mapmodule-th">Head2</th>
                   <th  className="mapmodule-th">Unit</th>
-                  <th  className="mapmodule-th">Attribute Type</th>
+                  {/* <th  className="mapmodule-th">Attribute Type</th> */}
                 </tr>
               </thead>
               <tbody  className="mapmodule-thead">
@@ -234,7 +257,7 @@ const handleOption1Select = (e) => {
                       required
                     />
                   </td>
-                  <td  className="mapmodule-th">
+                  {/* <td  className="mapmodule-th">
                     <select  className="mapmodule-select"
                       type="text"
                       name="attribute"
@@ -248,10 +271,11 @@ const handleOption1Select = (e) => {
                         </option> 
                       ))}
                     </select>
-                  </td>
+                  </td> */}
                 </tr>
               </tbody>
               <button  className="mapmodule-button" type="submit">Add Row</button>
+
             </table>
           </form>
           <button  className="mapmodule-button-submit" onClick={()=>handleLast()}> Submit</button>

@@ -48,8 +48,11 @@ function SystemCreate() {
       try {
         const result = await fetchPostApi(API,formValues);
         console.log(result); // do something with the result
+        alert('Data saved successfully!');
+
       } catch (error) {
         console.log(error); // handle the error
+        alert('Error in submitting the data! Please fill the data again.');
       }
     console.log(formValues);
   };
@@ -59,6 +62,7 @@ function SystemCreate() {
     <label>
       <h1 className="systemcreate-h1">Add System</h1>
     </label>
+    <div className="formcenter">
 
     <form className='systemcreate-form' onSubmit={handleSubmit}>
       <div className='systemcreate-div2' >
@@ -107,6 +111,7 @@ function SystemCreate() {
       <input className='systemcreate-button'  type="submit" value="Submit" />
       <input className='systemcreate-input'  type="hidden" id="logopath" name="logopath" value={formValues.logopath} />
     </form>
+    </div>
     </div>
   );
 }

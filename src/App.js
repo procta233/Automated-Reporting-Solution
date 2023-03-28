@@ -21,6 +21,7 @@ import Creator from './usertypes/creator';
 import Checker from './usertypes/Checker';
 import Approver from './usertypes/Approver';
 import EditComponents from './components/EditComponents';
+import Edit2Components from './components/Edit2Components';
 import Testing from './Testing';
 import Testing2 from './Testing2';
 const App = () => {
@@ -28,7 +29,7 @@ const App = () => {
     <div>
        <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/admin" element={<Admin />} />
             <Route exact path="/admin/usercreation" element={<UserCreation />}/>
             <Route exact path="/admin/usermaster" element={<UserMaster />}/>
@@ -41,6 +42,8 @@ const App = () => {
             <Route exact path="/admin/mapmodule" element={<MapModule />}/>
           <Route path="/creator" element={<Creator />} />
            <Route exaxt path="/creator/edit" element={<EditComponents />} />
+           <Route exaxt path="/creator/edit2" element={<Edit2Components />} />
+
           <Route path="/approver" element={<Approver />} />
           <Route path="/checker" element={<Checker />} />
           <Route path="/testpage" element={<Testing />} />

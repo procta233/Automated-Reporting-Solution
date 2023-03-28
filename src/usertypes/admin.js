@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { NavLink } from 'react-router-dom';
 
 import './cssmain/admin.css'
 
@@ -12,6 +12,7 @@ import SystemMaster from '../components/admincomponents/SystemMaster';
 import ManufacturerMaster from '../components/admincomponents/ManufacturerMaster';
 import ManufacturerCreate from '../components/admincomponents/ManufacturerCreate';
 import MapModule from '../components/admincomponents/MapModule';
+import LoginPage from '../../src/LoginPage';
 
 function Admin() {
    
@@ -59,6 +60,12 @@ function Admin() {
           return <ManufacturerCreate />;
         case 'map-module':
           return <MapModule />;
+          case'logout':
+          return (
+            <NavLink to="./login">
+              <button>logout</button>
+              </NavLink>
+          );
         default:
           return <ClientDBCreate />;
       }
@@ -106,6 +113,15 @@ function Admin() {
             <li className={selected === 'map-module' ? 'active' : ''}>
               <div onClick={() => handleClick('map-module')}>MapModule</div>
             </li>
+            {/* <li className={selected === 'logout' ? 'active' : ''}> */}
+            {/* <div onClick={() => handleClick('logout')}> */}
+            <li>
+              <NavLink to ="/login">
+              <button className= "admin-button">Logout</button>
+              </NavLink>
+              {/* </div> */}
+
+              </li>
           </ul>
         </div>
         <div className="admin-main">

@@ -2,6 +2,7 @@ import React,{useState,useEffect} from 'react';
 import { fetchPostApi } from "../api/singlecall";
 
 import { useLocation } from "react-router-dom";
+import "../components/admincomponents/componentscss/EditComponent.css"
 
 
 function ViewBoard() {
@@ -12,10 +13,7 @@ function ViewBoard() {
     const API12=URL+"getsetdata/reportid";
     const [description,setdec]=useState({clientid:"",systems:"",manufacturer:"",datebegin:"",timebegin:"",dateend:"",timeend:"",reportname:""});
     const [clientname,setclientname]=useState("");
-    const [data,FillSetPointData]=useState([['HHSP', '500', '-', '-','-','-'],
-     ['HSP', '-', '1000', '-','-','-'],
-     ['SCSP', '5800', '-', '1.3','-','-'],
-     ['CSP', '-', '13.5', '-','-','-']]);
+    const [data,FillSetPointData]=useState([[]]);
     const {state} = useLocation();
     
 
@@ -36,10 +34,11 @@ function ViewBoard() {
      setclientname(result1.clientname)
 
   };
-  const fetch1 = async (AP,data2) => {
+  const fetch1 = async (API,data2) => {
     
-    const result1 = await fetchPostApi (AP,data2);
-      console.log("result1",result1);
+    const resultsetdataapi = await fetchPostApi (API,data2);
+    FillSetPointData(resultsetdataapi.setdata)
+      console.log("resultsetdataapi",resultsetdataapi.setdata);
     //  FillSetPointData(result1.setdata);
 
   };
@@ -74,7 +73,7 @@ const delta = { reportid:state.alfa ,databasename:"bz2vx6b6k3kn9nlapzd9", tablen
 useEffect(() => {
   
   const xx={reportid:state.alfa};
- 
+ console.log("xxxxxxxxxx",xx)
 
    fetch1(API12,xx);
    fetch2(API11,xx);
@@ -195,7 +194,7 @@ const handlePrint =() =>{
           ))}
         </tbody>
         <tfoot>
-        <tr>Enter comments <input type='text'/></tr>
+        <tr>Enter comments <input className='editcomponent-input' type='textarea'/></tr>
         <tr>Created By </tr>
         <tr>Checked By<input type='text'/> </tr>
         </tfoot>

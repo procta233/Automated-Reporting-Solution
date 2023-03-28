@@ -51,8 +51,10 @@ function ManufacturerCreate() {
       try {
         const result = await fetchPostApi(API,formValues);
         console.log(result); // do something with the result
+        alert('Data submitted successfully!');
       } catch (error) {
         console.log(error); // handle the error
+        alert('Error in submitting the data! Please fill again!');
       }
     console.log(formValues);
   };
@@ -62,6 +64,7 @@ function ManufacturerCreate() {
     <label>
       <h1 className="manufacturercreate-h1">Add New Manufacturer</h1>
     </label>
+    <div className="formcenter">
     <form  className='manufacturercreate-form' onSubmit={handleSubmit}>
       <div className='manufacturercreate-div2'>
         <label className='manufacturercreate-label2' htmlFor="manufacturerid">Manufacturer ID:</label>
@@ -109,6 +112,7 @@ function ManufacturerCreate() {
       <input  className='manufacturercreate-button' type="submit" value="Submit" />
       <input className='manufacturercreate-button' type="hidden" id="logopath" name="logopath" value={formValues.logopath} />
     </form>
+    </div>
     </div>
   );
 }

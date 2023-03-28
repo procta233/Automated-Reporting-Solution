@@ -4,29 +4,29 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
 
 
-.admin {
+.creator {
   display: flex;
   flex-direction: row;
   height: 100vh;
 }
 
-.admin-sidebar {
+.creator-sidebar {
   flex: 0 0 200px;
   background-color: #f0f0f0;
   padding: 20px;
 }
 
-.admin-sidebar ul {
+.creator-sidebar ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
 }
 
-.admin-sidebar li {
+.creator-sidebar li {
   margin-bottom: 10px;
 }
 
-.admin-sidebar li div {
+.creator-sidebar li div {
   display: block;
   padding: 10px;
   background-color: #fff;
@@ -36,20 +36,20 @@
   transition: background-color 0.3s;
 }
 
-.admin-sidebar li div:hover {
+.creator-sidebar li div:hover {
   background-color: #eee;
 }
 
-.admin-sidebar li.active div {
+.creator-sidebar li.active div {
   background-color: #0077cc;
   color: #fff;
 }
 
-.admin-main {
+.creator-main {
   flex: 1;
   padding: 20px;
 }
-.admin-sidebar {
+.creator-sidebar {
   position: absolute;
   top: 0;
   left: -250px;
@@ -60,19 +60,19 @@
   z-index: 1;
 }
 
-.admin-sidebar.visible {
+.creator-sidebar.visible {
   left: 0;
 }
 
-.admin-sidebar:active {
+.creator-sidebar:active {
   cursor: grab;
 }
 
-/* .admin-sidebar:active ul {
+/* .creator-sidebar:active ul {
   pointer-events: none;
 } */
 
-.admin-sidebar:active:after {
+.creator-sidebar:active:after {
   content: "";
   position: fixed;
   top: 0;
@@ -83,39 +83,39 @@
   cursor: grabbing;
 }
 
-.admin-sidebar:active.visible:after {
+.creator-sidebar:active.visible:after {
   display: none;
 }
 
-.admin-main {
+.creator-main {
   margin-left: 250px;
 }
-.admin-sidebar {
+.creator-sidebar {
   position: absolute;
   top: 0;
   left: -250px;
   width: 250px;
   height: 100%;
-  background-color: #a8a4a4;
+  background-color: #eee;
   transition: left 0.2s ease-in-out;
   z-index: 1;
 }
 
-.admin-sidebar.visible {
+.creator-sidebar.visible {
   left: 0;
 }
 
-.admin-sidebar.dragging {
+.creator-sidebar.dragging {
   pointer-events: none;
 }
 
-.admin-sidebar-toggle {
+.creator-sidebar-toggle {
   position: absolute;
   top: 47vh;
   right: -40px;
   width: 40px;
   height: 40px;
-  background-color:  #a8a4a4;;
+  background-color: #fff;
   border: 1px solid #ccc;
   border-left: none;
   border-radius: 10px;
@@ -124,15 +124,15 @@
   z-index: 2;
 }
 
-.admin-sidebar-toggle:hover {
+.creator-sidebar-toggle:hover {
   background-color: #ccc;
 }
 
-.admin-main {
+.creator-main {
   margin-left: 250px;
 }
 
-.admin-button{
+.creator-button{
   border: none;
   border-radius: 5px;
   padding: 0.75rem 1rem;
@@ -146,11 +146,11 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.admin-button:hover {
+.creator-button:hover {
   color: #000000;
   }
 
-  .admin-button::before {
+  .creator-button::before {
     content: "\f007";
     font-family: "Font Awesome 5 Free";
     margin-right: 10px;

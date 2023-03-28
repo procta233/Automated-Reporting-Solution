@@ -49,12 +49,12 @@ const UserCreation = () => {
     try {
       const result = await fetchPostApi(API, newUser);
       console.log(result); // do something with the result
+      alert('Data saved successfully!');
     } catch (error) {
       console.log(error); // handle the error
+      alert('Error in submitting the data! Please fill the data again');
     }
   };
-
-
 
 
   const handleSelectChange = (e) => {
@@ -79,7 +79,7 @@ const UserCreation = () => {
       <label>
         <h1 className="usercreation-h1">Create New User</h1>
       </label>
-
+      <div className="formcenter">
       <form className="usercreation-form" onSubmit={HanleSubmit}>
         <div className="usercreation-div2">
 
@@ -208,6 +208,7 @@ const UserCreation = () => {
           {/* <button type="button" onClick={(()=>console.log(values))}> </button> */}
         </div>
       </form>
+      </div>
     </div>
   );
 };

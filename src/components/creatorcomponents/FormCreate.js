@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useMemo, useEffect, useState } from "react";
+import { Card, Form, Input, Label, Select } from 'semantic-ui-react';
 import {fetchGetApi, fetchPostApi } from "../../api/singlecall";
 import "../admincomponents/componentscss/FormCreate.css";
 
@@ -15,6 +16,9 @@ function FormCreate() {
   const API9 = URL+"normalpoints";
   const API10 = URL+"advancesearch";
   const API13=URL+"setPointData";
+  const [atList, setAtlist] = useState([]);
+
+  const API41 = URL+"attributes";
 
   const [showComponentOne, setShowComponentOne] = useState(true);
   const [showComponentTwo, setShowComponentTwo] = useState(false);
@@ -29,8 +33,8 @@ function FormCreate() {
   const [table1,setTable1]=useState([]);
   const [formList,setFormList]=useState([]);
   const[sel,setSel]=useState(null);
-  const [min_value,setmin_value]=useState("");
-  const [max_value,setmax_value]=useState("");
+  const [min_date,setmin_date]=useState("");
+  const [max_date,setmax_date]=useState("");
 
   const [formValues, setFormValues] = useState({
     userid: "ABS-896645467/Creator",
@@ -52,7 +56,7 @@ function FormCreate() {
     prechandler:'',
     nexthandler:'',
     count:1,
-    reportname:'',
+    reportname:"",
 
   });
 
@@ -69,7 +73,7 @@ function FormCreate() {
 
   const [heading, setHeading] = useState([]);
   const [options, setOptions] = useState([[]]);
-
+  const [Arrayofselectedattributes,setarr]=useState([]);
   const handleInputChange = (e, row, col) => {
     const newData = [...data];
     newData[row][col] = e.target.value;
@@ -90,10 +94,10 @@ function FormCreate() {
       i--; // Decrement i to account for the removed element
       break;
     }
-  }
+   }
 
     isSelected === false? setIsselected(true):setIsselected(false);
-  };
+};
 
   // const addRow = () => {
   //  if (data.length-1 === 0)
@@ -147,8 +151,9 @@ const addRow = () => {
     newData[newData.length-1][0]=""
     console.log("two",newData)
     setData(newData);
-};
   };
+};
+
   const shiftLeft = (col) => {
     var newdata = [...heading];
     console.log("newdata", newdata);
@@ -225,8 +230,7 @@ const addRow = () => {
     }
   };
 
-
-  function getClientIdByDatabaseName(jsonArray, databasename) {
+function getClientIdByDatabaseName(jsonArray, databasename) {
     const obj = jsonArray.find(item => item.databasename === databasename);
     return obj ? obj.clientid : null;
   };
@@ -235,6 +239,7 @@ const addRow = () => {
   const getUniqueSystems = [
     ...new Set(systemList.map((item) => item.systemname)),
   ];
+
   const getUniqueManu = [
     ...new Set(manufacturerList.map((item) => item.manufacturername)),
   ];
@@ -246,6 +251,7 @@ const addRow = () => {
 
     setClientList(result); 
   };
+
   const fetch2 = async (API) => {
     
     const result = await fetchGetApi (API);
@@ -259,6 +265,7 @@ const addRow = () => {
 
     setManufacturerList(result); 
   };
+
   const toggleSelected1 = (index) => {
     const selectedIndex = selected1.indexOf(index);
     if (selectedIndex >= 0) {
@@ -278,6 +285,13 @@ const addRow = () => {
   };
   const selectedData1 = selected1.map((i) => list[i]);
   const selectedData2 = selected2.map((i) => list[i]);
+  
+  function findIndexBySensorName(sensorname, A1, A2) {
+  const index = A1.findIndex((element) => element.sensorname === sensorname);
+  return index !== -1 ? A2[index] : undefined;
+}
+
+
   const newData1 = selectedData1.map(({ sensorname}) => ({
     reportid:repId.reportid,
     sensorname,
@@ -289,30 +303,54 @@ const addRow = () => {
     reportid:repId.reportid,
     sensorname,
     order1:0,
+    attribute:findIndexBySensorName(sensorname,list,Arrayofselectedattributes)
     
   }));
+  console.log("newdata2",newData2)
+
+  const fetch5 = async (APi,data2) => {
+    
+    const result1 = await fetchPostApi(APi,data2);
+   setAtlist(result1);
+    //  FillSetPointData(result1.setdata);
+  };
 
   useEffect(() => {
   fetch1(API1);
   fetch2(API2);
   fetch3(API3);
+  
   }, []);
+
+
+  const hanldeattributes=(e,index)=>{
+    let ar=Arrayofselectedattributes;
+    ar[index]=e.target.value;
+    setarr(ar);
+     console.log("arrrrrrry",Arrayofselectedattributes,ar)
+  }
+  // console.log("arrrrrrry",Arrayofselectedattributes,ar)
 
 const fetch4 = async (APi,data2) => {
     
     const result1 = await fetchPostApi(APi,data2);
     console.log("result1",result1);
     //  FillSetPointData(result1.setdata);
+    return result1;
   };
-  const handleaddsetdata= async ()=>{
+
+const handleaddsetdata= async ()=>{
     const blue ={reportid:repId.reportid,setdata:data};
       const result= await fetch4(API13,blue);
       console.log("addsetdata",result);
       setSel(result);
+      alert('Report Created Successfully!');
   }
 
   function ComponentOne() {
     return (<div className="formcreate-div">
+      {/* <label className="formcreate-h1"> Creator Profile
+        </label> */}
     <label  htmlFor="dbSelect">
       <h1 className="formcreate-h1">Database Select:</h1>
       </label>
@@ -338,7 +376,8 @@ const fetch4 = async (APi,data2) => {
     <h1 className="formcreate-h1">Create New Report</h1>
   </label>
   
-<form className="formcreate=" onSubmit={(e)=>handleSubmit(e)}>
+<form className="formcreate-" onSubmit={(e)=>handleSubmit(e)}>
+  <Form.Field>
  <div className="formcreate-div2">
   <label className="formcreate-label2" htmlFor="userid">User ID</label>
   <div class="error-message">*This field is mandatory</div>
@@ -354,8 +393,10 @@ const fetch4 = async (APi,data2) => {
   />
   
   </div>
+  </Form.Field>
+
   <div className="formcreate-div2">
-  <label className="formcreate-label2" htmlFor="clientid">Client ID</label>
+  <label className="formcreate-label-2" htmlFor="clientid">Client ID</label>
   <div class="error-message">*This field is mandatory</div>
   <input
   className="formcreate-select"
@@ -371,7 +412,7 @@ const fetch4 = async (APi,data2) => {
   </div>
 
    <div className="formcreate-div2">
-  <label className="formcreate-label2" htmlFor="systems">Systems</label>
+  <label className="formcreate-label-2" htmlFor="systems">Systems</label>
   <div class="error-message">*This field is mandatory</div>
   <select
     className="formcreate-select"
@@ -391,7 +432,7 @@ const fetch4 = async (APi,data2) => {
   </div>
 
   <div className="formcreate-div2">
-  <label className="formcreate-label2" htmlFor="table1">Table</label>
+  <label className="formcreate-label-2" htmlFor="table1">Table</label>
   <div class="error-message">*This field is mandatory</div>
   <select
     className="formcreate-select"
@@ -407,12 +448,12 @@ const fetch4 = async (APi,data2) => {
     ))}
   </select>
   </div>  
-   
+  
  <div className="formcreate-div2">
-  <label className="formcreate-label2" htmlFor="reportname">Report Name:</label>
-  <div class="error-message">*This field is mandatory</div>
+  <label className="formcreate-label-2" htmlFor="reportname">Report Name:</label>
+  {/* <div class="error-message">*This field is mandatory</div> */}
   <input
-   className="formcreate-select"
+   className="formcreate-input"
     type="text"
     id="reportname"
     name="reportname"
@@ -423,8 +464,9 @@ const fetch4 = async (APi,data2) => {
   />
   
   </div>
-  <div className="formcreate-div2">
-  <label className="formcreate-label2" htmlFor="formtype">Form</label>
+
+  {/* <div className="formcreate-div2">
+  <label className="formcreate-label-2" htmlFor="formtype">Form</label>
   <div class="error-message">*This field is mandatory</div>
   <select
     className="formcreate-select"
@@ -441,11 +483,11 @@ const fetch4 = async (APi,data2) => {
       <option key={index}>{cur}</option>
     ))}
   </select>
-  </div>  
+  </div>   */}
   
  
     <div className="formcreate-div2">
-  <label className="formcreate-label2" htmlFor="manufacturer">Manufacturer</label>
+  <label className="formcreate-label-2" htmlFor="manufacturer">Manufacturer</label>
   <div class="error-message">*This field is mandatory</div>
   <select
     className="formcreate-select"
@@ -464,19 +506,22 @@ const fetch4 = async (APi,data2) => {
   </select>
   </div>
    <div className="formcreate-div2">
-  <label className="formcreate-label2" htmlFor="datebegin">Date Begin</label>
+  <label className="formcreate-label-2" htmlFor="datebegin">Date Begin</label>
   <div class="error-message">*This field is mandatory</div>
   <input
   className="formcreate-select"
     type="date"
     id="datebegin"
     name="datebegin"
+    min={min_date}
+    max={max_date}
     value={formValues.datebegin}
     onChange={handleChange}
+    disabled={!min_date&&!max_date}
     />
   </div>
       <div className="formcreate-div2">
-  <label className="formcreate-label2" htmlFor="timebegin">Time Begin</label>
+  <label className="formcreate-label-2" htmlFor="timebegin">Time Begin</label>
   <div class="error-message">*This field is mandatory</div>
   <input
   className="formcreate-select"
@@ -485,11 +530,12 @@ const fetch4 = async (APi,data2) => {
     name="timebegin"
     value={formValues.timebegin}
     onChange={handleChange}
+
   />
 
   </div>
   <div className="formcreate-div2">
-  <label className="formcreate-label2" htmlFor="dateend">Date End</label>
+  <label className="formcreate-label-2" htmlFor="dateend">Date End</label>
   <div class="error-message">*This field is mandatory</div>
   <input
     className="formcreate-select"
@@ -500,12 +546,13 @@ const fetch4 = async (APi,data2) => {
     onChange={handleChange}
     //date end not before date begin
     min={formValues.datebegin}
+    max={max_date}
     disabled={!formValues.datebegin}
 
    />
   </div>
   <div className="formcreate-div2">
-  <label className="formcreate-label2" htmlFor="timeend">Time End</label>
+  <label className="formcreate-label-2" htmlFor="timeend">Time End</label>
   <div class="error-message">*This field is mandatory</div>
   <input
     className="formcreate-select"
@@ -518,7 +565,7 @@ const fetch4 = async (APi,data2) => {
   />
   </div>
   <div className="formcreate-div2">
-  <label className="formcreate-label2" htmlFor="timetype">Time Type</label>
+  <label className="formcreate-label-2" htmlFor="timetype">Time Type</label>
   <div class="error-message">*This field is mandatory</div>
   <select
   className="formcreate-select"
@@ -554,6 +601,9 @@ const fetch4 = async (APi,data2) => {
   }
   
   function ComponentThree() {
+    if(atList.length===0){
+    fetch5(API41,{databasename:selectedDB,tablename:formValues.table1})  
+    }
     return (
       <div className="formcreate-container">
       <div className="formcreate-heading">
@@ -568,8 +618,8 @@ const fetch4 = async (APi,data2) => {
             <th className="formcreate-th">Head1</th>
             <th className="formcreate-th">Head2</th>
             <th className="formcreate-th">Unit</th>
-            <th className="formcreate-th">Attribute</th>
-            <th className="formcreate-th">Columns for SetPoints Table</th>
+            <th className="formcreate-th">Attributes for Final Report Table</th>
+            <th className="formcreate-th">Include Columns for Set Point Table</th>
             <th className="formcreate-th">Columns for Final Report Table</th>
           </tr>
         </thead>
@@ -578,8 +628,27 @@ const fetch4 = async (APi,data2) => {
             <tr key={index}>
               <td className="formcreate-td">{item.head1}</td>
               <td className="formcreate-td">{item.head2}</td>
+
               <td className="formcreate-td">{item.unit}</td>
-              <td className="formcreate-td">{item.attribute}</td>
+              <td  className="formcreate-td">
+                    <select  className="formcreate-select"
+                      type="text"
+                      name="attribute"
+                      value={Arrayofselectedattributes[index]}
+                      placeholder="Select attribute type "
+                      onChange={(e)=>hanldeattributes(e,index)}
+                      required
+                    >
+                      <option className="formcreate-option" disabled>Select option </option>
+                      {atList.map((option, key) => (
+                        <option key={key} value={option}>
+                          {option}
+                        </option> 
+                      ))}
+                    </select>
+                  </td>
+
+
               <td className="formcreate-td">
                 <input 
                   type="checkbox"
@@ -776,6 +845,7 @@ setShowComponentFive(false);
 const delta = { reportid:repId.reportid ,databasename: formValues.databasename, tablename: formValues.table1 };
 
 const response3 =await fetchPostApi(API10,delta);
+alert('Columns selected successfully!');
 console.log(response3);
 
 setHeading(response3.firstheader);
@@ -823,14 +893,34 @@ setOptions(trial);
  
     
   };
+
+  // const handleChange = (event) => {
+  //   setFormValues({
+  //     ...formValues,
+  //     [event.target.name]: event.target.value,
+  //   });
+  //  console.log(formValues);
+
+  //  if (event.type === 'blur') {
+  //   setFormValues({
+  //     ...formValues,
+  //     [event.target.name]: event.target.value,
+  //   });
+  // }
+  // };
+
   const handleChange = (event) => {
-    
-    setFormValues({
-      ...formValues,
-      [event.target.name]: event.target.value,
-    });
    
-  };
+      const { name, value } = event.target;
+      setFormValues({
+        ...formValues,
+        [name]: value,
+      });
+    };
+
+
+
+
   const handleChangeTable1 =async (event) => {
     setFormValues({
       ...formValues,
@@ -842,8 +932,10 @@ setOptions(trial);
       const formslist= await fetchPostApi(API5,body);
     
       setFormList(formslist.formtypes);
-      // setmin_value(formslist)
-    // };
+      setmin_date(formslist.mindate.substring(0,10));
+      setmax_date(formslist.maxdate.substring(0,10));
+      console.log(formslist.mindate.substring(0,10),formslist.maxdate.substring(0,10))
+
   };
 
   const isDateEndBeforeDateBegin = () => {
@@ -859,6 +951,7 @@ setOptions(trial);
     e.preventDefault();
     console.log(formValues);
     const repid = await fetchPostApi(API6,formValues);
+    alert('Data submitted successfully!');
     setRepId(repid);
 
 
@@ -881,6 +974,7 @@ setOptions(trial);
       prechandler:'Creator',
       nexthandler:'Creator',
       version:'0',
+      formtype:formList[0],
     
     });
     console.log(formValues,"before send");
@@ -898,7 +992,6 @@ setOptions(trial);
 
   return (
     <div>
-   
       {showComponentOne && <ComponentOne />}
       {showComponentTwo && <ComponentTwo />}
       {showComponentThree && <ComponentThree />}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
-
-import './cssmain/admin.css'
+import './cssmain/creator.css'
 
 import FormCreate from '../components/creatorcomponents/FormCreate';
 import FormList from '../components/creatorcomponents/FormList';
@@ -39,6 +39,12 @@ function Creator() {
           return <FormCreate />;
         case 'client-db-create':
           return <FormList />;
+          case 'logout':
+            return (
+              <NavLink to="./login">
+                <button>logout</button>
+                </NavLink>
+            );
 
         default:
           return <FormList />;
@@ -46,16 +52,16 @@ function Creator() {
     };
   
     return (
-      <div className="admin">
+      <div className="creator">
               <div
-        className={`admin-sidebar${isSidebarVisible ? " visible" : ""}${
+        className={`creator-sidebar${isSidebarVisible ? " visible" : ""}${
           isDragging ? " dragging" : ""
         }`}
         draggable="true"
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
       >
-        <button className="admin-sidebar-toggle" onClick={handleToggleSidebar}>
+        <button className="creator-sidebar-toggle" onClick={handleToggleSidebar}>
           {isSidebarVisible ? "<<" : ">>"}
         </button>
         <h1>Creator Profile</h1>
@@ -66,9 +72,14 @@ function Creator() {
             <li className={selected === 'client-db-create' ? 'active' : ''}>
               <div onClick={() => handleClick('client-db-create')}>FormList</div>
             </li>
+            <li>
+              <NavLink to ="/login">
+              <button className= "creator-button">Logout</button>
+              </NavLink>
+              </li>
           </ul>
         </div>
-        <div className="admin-main">
+        <div className="creator-main">
           {renderComponent()}
         </div>
       </div>

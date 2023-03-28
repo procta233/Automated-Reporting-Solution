@@ -63,6 +63,11 @@ const setid =(event)=>{
   const alfa=event.target.value;
   navigate('/creator/edit', { state: { alfa} });
 };
+const setid2 =(event)=>{
+  event.preventDefault();
+  const alfa=event.target.value;
+  navigate('/creator/edit2', { state: { alfa} });
+};
 
 
   return (
@@ -157,7 +162,7 @@ const setid =(event)=>{
                       <button value={report.reportid} onClick={(e) => setid(e)}>View</button>
                     </td>
                     <td className="formlist-tbody-td">
-                      <button>Edit</button>
+                      <button value={report.reportid} onClick={(e) => setid2(e)}>Edit</button>
                     </td>
                   </tr>
                 ))}

@@ -56,8 +56,11 @@ function ClientDBCreate() {
     try {
       const result = await fetchPostApi(API, formValues);
       console.log(result); // do something with the result
+      alert('Data saved successfully!');
     } catch (error) {
       console.log(error); // handle the error
+      alert('Some Error Occurred! ');
+
     }
 
     console.log(formValues);
@@ -68,7 +71,7 @@ function ClientDBCreate() {
       <label>
         <h1 className="clientdbcreate-h1">Add New Client</h1>
       </label>
-
+<div className="formcenter">
       <form className="clientdbcreate-form" onSubmit={handleSubmit}>
         <div className="clientdbcreate-div2">
           <label className="clientdbcreate-label2" htmlFor="clientid">
@@ -213,7 +216,9 @@ function ClientDBCreate() {
             onChange={handleInputChange}
           />
         </div>
-
+        <div className="clientdbcreate-div2">
+          </div>
+        <div className="clientdbcreate-div2">
         <input className="clientdbcreate-button" type="submit" value="Submit" />
         <input
           className="clientdbcreate-button"
@@ -222,7 +227,10 @@ function ClientDBCreate() {
           name="userofdatabase"
           value={formValues.logoPath}
         />
+        </div>
+        
       </form>
+      </div>
     </div>
   );
 }
